@@ -5,5 +5,8 @@ export default defineConfig({
   modules: ['@wxt-dev/module-react'],
   manifest: {
     permissions: ['activeTab', 'scripting', 'downloads'],
+    action: {
+      default_title: 'Asset Downloader',
+    },
   },
 });
