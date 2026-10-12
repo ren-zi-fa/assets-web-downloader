@@ -1,10 +1,24 @@
 # Asset Downloader
 
-A browser extension that scans the page you are currently viewing and lets you
-**download images, fonts, and audio** one by one — no browser DevTools required.
+<p align="center">
+  <img src="public/icon/128.png" alt="Asset Downloader logo" width="112" height="112">
+</p>
 
-Built with [WXT](https://wxt.dev) + React. Ships as **Manifest V3** for
-Chromium browsers and **Manifest V2** for Firefox.
+<h3 align="center">Scan and download images, fonts, and audio from any web page.</h3>
+
+<p align="center">
+  <a href="https://github.com/ren-zi-fa/assets-web-downloader/releases/latest"><img src="https://img.shields.io/github/v/release/ren-zi-fa/assets-web-downloader?label=release&color=1bb9ee" alt="Latest release"></a>
+  <a href="https://github.com/ren-zi-fa/assets-web-downloader/releases"><img src="https://img.shields.io/github/downloads/ren-zi-fa/assets-web-downloader/total?label=downloads&color=1bb9ee" alt="Total downloads"></a>
+  <a href="https://github.com/ren-zi-fa/assets-web-downloader/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ren-zi-fa/assets-web-downloader/ci.yml?branch=main&label=build" alt="Build status"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/ren-zi-fa/assets-web-downloader?color=1bb9ee" alt="MIT License"></a>
+  <img src="https://img.shields.io/badge/Chrome-Manifest%20V3-1bb9ee" alt="Chrome Manifest V3">
+  <img src="https://img.shields.io/badge/Firefox-Manifest%20V2-1bb9ee" alt="Firefox Manifest V2">
+</p>
+
+Asset Downloader is a browser extension that scans the page you are viewing and
+lets you **download images, fonts, and audio** one by one — no browser DevTools
+required. Built with [WXT](https://wxt.dev) + React, published as **Manifest V3**
+for Chromium browsers and **Manifest V2** for Firefox.
 
 ![Asset Downloader popup](images/tampilan.png)
 
@@ -20,6 +34,28 @@ Chromium browsers and **Manifest V2** for Firefox.
   inspecting network traffic in the page's main world.
 - **Download or copy** the URL of any detected asset.
 - Scans **same-origin iframes** recursively; cross-origin iframes are skipped safely.
+
+## How it works
+
+1. Open a regular website and click the extension icon.
+2. Pick a tab — **Images**, **Font**, or **Audio** — and press **Analyze**.
+3. For every result, use **Copy URL** or **Download**.
+
+The scan runs inside the page you are on, then reports what it found. It never
+uploads your data anywhere: there is no backend, no analytics, and no account.
+
+## Why Asset Downloader
+
+- **No DevTools, no guesswork** — the Network tab hides assets behind filters and
+  scroll-triggered loading. This extension collects them in one click.
+- **Web Audio aware** — sounds played purely through JavaScript (e.g. `howler.js`)
+  show up too, not just HTML `<audio>` tags.
+- **Smarter picks** — reads `srcset`/`<picture>` and upgrades Pexels CDN URLs to a
+  larger size, so you download the best version instead of a thumbnail.
+- **Lightweight popup** — results render in pages of 40 with a **Load more** button,
+  so even image-heavy pages stay responsive.
+- **Honest limits** — when a scan is capped, the UI tells you how many results
+  exist ("Showing 40 of 512"), instead of silently hiding them.
 
 ## Install manually
 
