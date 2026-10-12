@@ -37,6 +37,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: asset-downloader-packages
+          # `.output` ada di .gitignore; tanpa ini upload-artifact mengabaikannya.
+          include-hidden-files: true
           path: |
             .output/*-chrome.zip
             .output/*-firefox.zip
