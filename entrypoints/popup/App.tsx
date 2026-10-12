@@ -6,6 +6,7 @@ import './App.css';
 import { FEATURES, getFeature, type FeatureId, type PanelProps } from './features/registry';
 import { getActiveTab, runPageScan } from './shared/browser';
 import { toUserMessage } from './shared/errors';
+import { mergeByUrl } from './shared/merge';
 
 type Status = 'idle' | 'scanning' | 'done' | 'error';
 
@@ -43,7 +44,15 @@ function App() {
     try {
       const tab = await getActiveTab();
       setTabHost(tab.host);
-      setItems(await runPageScan(tab.id, feature.scan));
+      const [domItems, networkItems] = await Promise.all([
+        runPageScan(tab.id, feature.scan),
+        // Pemindai MAIN world (mis. audio Web Audio): kegagalan di sini tidak
+        // boleh menggagalkan hasil DOM yang sudah didapat.
+        feature.scanNetwork
+          ? runPageScan(tab.id, feature.scanNetwork, 'MAIN').catch(() => [])
+          : Promise.resolve([]),
+      ]);
+      setItems(mergeByUrl(domItems, networkItems));
       setStatus('done');
     } catch (caught) {
       setError(toUserMessage(caught));

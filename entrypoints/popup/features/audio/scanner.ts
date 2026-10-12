@@ -3,24 +3,30 @@ export interface ScannedAudio {
   /** Judul asli jika ada, string kosong jika tidak diketahui (UI pakai nama file). */
   title: string;
   ext: string;
-  kind: 'audio' | 'source' | 'link' | 'video' | 'stream';
+  kind: 'audio' | 'source' | 'link' | 'video' | 'stream' | 'network';
   playable: boolean;
 }
 
-const AUDIO_EXTS = ['mp3', 'wav', 'ogg', 'oga', 'm4a', 'aac', 'flac', 'opus', 'weba', 'mid', 'midi'];
-/** Playlist streaming (HLS/DASH): bukan file musik, tak bisa diunduh langsung. */
-const PLAYLIST_EXTS = ['m3u8', 'mpd', 'm3u', 'pls'];
-
 /**
  * Dipindai di dalam halaman via `browser.scripting.executeScript`.
- * WAJIB self-contained seperti scanner lainnya (helper BERSARANG).
+ * WAJIB self-contained seperti scanner lainnya: helper DAN konstanta
+ * didefinisikan BERSARANG di dalam fungsi ini (hanya source fungsi yang
+ * diserialisasi ke tab target — lihat catatan di images/scanner.ts).
  *
  * Sumber: elemen <audio>, <source>, <video> (ada track suara), link <a>
  * yang mengarah ke file audio, dan meta og:audio. URL blob: dan playlist
  * HLS/DASH (.m3u8/.mpd) ditandai tak bisa diputar/diunduh dari extension.
  * Iframe same-origin ditelusuri rekursif; cross-origin dilewati aman.
+ *
+ * Catatan: situs yang memutar audio via Web Audio API (mis. howler.js) atau
+ * `new Audio()` tanpa menempel ke DOM TIDAK akan terlihat di sini — itu
+ * ditangani oleh `scanAudioNetwork` (MAIN world).
  */
 export function scanPageAudio(): ScannedAudio[] {
+  const AUDIO_EXTS = ['mp3', 'wav', 'ogg', 'oga', 'm4a', 'aac', 'flac', 'opus', 'weba', 'mid', 'midi'];
+  /** Playlist streaming (HLS/DASH): bukan file musik, tak bisa diunduh langsung. */
+  const PLAYLIST_EXTS = ['m3u8', 'mpd', 'm3u', 'pls'];
+
   const seen = new Map<string, ScannedAudio>();
 
   const baseOf = (doc: Document): string => {
@@ -170,4 +176,112 @@ export function scanPageAudio(): ScannedAudio[] {
   walk(document);
 
   return [...seen.values()].slice(0, 200);
+}
+
+/**
+ * Dipindai di MAIN world (konteks JS halaman) via `executeScript({ world: 'MAIN' })`.
+ * WAJIB self-contained seperti `scanPageAudio`.
+ *
+ * Menutup celah yang tak terlihat oleh pemindaian DOM: audio yang diputar
+ * lewat Web Audio API (howler.js, AudioContext/decodeAudioData) atau lewat
+ * `new Audio()` yang tidak pernah ditempel ke DOM.
+ *
+ * Cara kerja (semuanya idempoten, hasil diakumulasi di `globalThis`):
+ * 1. Resource Timing API — menangkap file audio yang sudah dimuat halaman
+ *    SEBELUM popup dibuka (mis. howler yang preload saat load).
+ * 2. Hook `fetch`, `XMLHttpRequest.open`, dan setter `HTMLMediaElement.src`
+ *    — menangkap audio yang dimuat setelahnya.
+ */
+export function scanAudioNetwork(): ScannedAudio[] {
+  const AUDIO_EXTS = ['mp3', 'wav', 'ogg', 'oga', 'm4a', 'aac', 'flac', 'opus', 'weba', 'mid', 'midi'];
+
+  const scope = globalThis as typeof globalThis & {
+    __assetAudioSeen?: Set<string>;
+    __assetAudioHooked?: boolean;
+  };
+  const seen: Set<string> = scope.__assetAudioSeen ?? (scope.__assetAudioSeen = new Set<string>());
+
+  const toAbs = (raw: string): string | null => {
+    try {
+      const u = new URL(raw, location.href);
+      return u.protocol === 'http:' || u.protocol === 'https:' ? u.href : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const extOf = (url: string): string => {
+    try {
+      const path = new URL(url).pathname.split('/').pop() ?? '';
+      const ext = (path.split('.').pop() ?? '').toLowerCase();
+      return AUDIO_EXTS.includes(ext) ? ext : '';
+    } catch {
+      return '';
+    }
+  };
+
+  const record = (raw: unknown): void => {
+    if (typeof raw !== 'string') return;
+    const url = toAbs(raw);
+    if (url && extOf(url)) seen.add(url);
+  };
+
+  if (!scope.__assetAudioHooked) {
+    scope.__assetAudioHooked = true;
+
+    const originalFetch = globalThis.fetch;
+    if (typeof originalFetch === 'function') {
+      globalThis.fetch = function (input: RequestInfo | URL, init?: RequestInit) {
+        try {
+          record(typeof input === 'string' ? input : input instanceof URL ? input.href : input.url);
+        } catch {
+          /* biarkan permintaan tetap jalan */
+        }
+        return originalFetch.call(globalThis, input, init);
+      };
+    }
+
+    const originalOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function (
+      this: XMLHttpRequest,
+      method: string,
+      url: string | URL,
+      async: boolean = true,
+      username?: string | null,
+      password?: string | null,
+    ): void {
+      try {
+        record(url);
+      } catch {
+        /* biarkan permintaan tetap jalan */
+      }
+      originalOpen.call(this, method, url, async, username, password);
+    };
+
+    const originalSrc = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'src');
+    if (originalSrc?.get && originalSrc.set) {
+      const setSrc = originalSrc.set;
+      Object.defineProperty(HTMLMediaElement.prototype, 'src', {
+        configurable: true,
+        enumerable: originalSrc.enumerable,
+        get: originalSrc.get,
+        set(this: HTMLMediaElement, value: string) {
+          try {
+            record(value);
+          } catch {
+            /* biarkan pemasangan src tetap jalan */
+          }
+          setSrc.call(this, value);
+        },
+      });
+    }
+  }
+
+  try {
+    performance.getEntriesByType('resource').forEach((entry) => record(entry.name));
+  } catch {
+    /* Resource Timing tak tersedia: cukup andalkan hook */
+  }
+
+  return [...seen].map((url) => ({ url, title: '', ext: extOf(url), kind: 'network', playable: true }));
 }

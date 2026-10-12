@@ -19,14 +19,24 @@ export async function getActiveTab(): Promise<ActiveTab> {
   return { id: tab.id, host: hostOf(tab.url) };
 }
 
+/** Konteks JS tempat skrip pemindai dijalankan. */
+export type PageWorld = 'ISOLATED' | 'MAIN';
+
 /**
  * Jalankan fungsi pemindai di dalam halaman tab target.
  * `pageFunction` WAJIB self-contained (diserialisasi ke halaman).
+ * `world: 'MAIN'` dipakai bila pemindai perlu mengintip API milik skrip
+ * halaman (perf timing, hook fetch/XHR) — lihat features/audio/scanner.ts.
  */
-export async function runPageScan<T>(tabId: number, pageFunction: () => T[]): Promise<T[]> {
+export async function runPageScan<T>(
+  tabId: number,
+  pageFunction: () => T[],
+  world: PageWorld = 'ISOLATED',
+): Promise<T[]> {
   const [result] = await browser.scripting.executeScript({
     target: { tabId },
     func: pageFunction,
+    world,
   });
   return result?.result ?? [];
 }

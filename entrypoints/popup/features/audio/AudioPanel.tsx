@@ -8,6 +8,9 @@ function describe(track: ScannedAudio): string {
   if (track.kind === 'stream') {
     return `${track.ext || 'stream'} · playlist, belum didukung`;
   }
+  if (track.kind === 'network') {
+    return `${track.ext} · dari lalu lintas jaringan`;
+  }
   const parts = [track.ext, track.kind].filter(Boolean).join(' · ');
   return track.playable ? parts : `${parts} · stream, tak bisa diunduh`;
 }
