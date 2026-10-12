@@ -1,3 +1,5 @@
+import type { ScanResult } from '../../shared/scan';
+
 export interface ScannedAudio {
   url: string;
   /** Judul asli jika ada, string kosong jika tidak diketahui (UI pakai nama file). */
@@ -22,7 +24,7 @@ export interface ScannedAudio {
  * `new Audio()` tanpa menempel ke DOM TIDAK akan terlihat di sini — itu
  * ditangani oleh `scanAudioNetwork` (MAIN world).
  */
-export function scanPageAudio(): ScannedAudio[] {
+export function scanPageAudio(): ScanResult<ScannedAudio> {
   const AUDIO_EXTS = ['mp3', 'wav', 'ogg', 'oga', 'm4a', 'aac', 'flac', 'opus', 'weba', 'mid', 'midi'];
   /** Playlist streaming (HLS/DASH): bukan file musik, tak bisa diunduh langsung. */
   const PLAYLIST_EXTS = ['m3u8', 'mpd', 'm3u', 'pls'];
@@ -175,7 +177,8 @@ export function scanPageAudio(): ScannedAudio[] {
   };
   walk(document);
 
-  return [...seen.values()].slice(0, 200);
+  const all = [...seen.values()];
+  return { items: all.slice(0, 200), total: all.length };
 }
 
 /**
@@ -192,7 +195,7 @@ export function scanPageAudio(): ScannedAudio[] {
  * 2. Hook `fetch`, `XMLHttpRequest.open`, dan setter `HTMLMediaElement.src`
  *    — menangkap audio yang dimuat setelahnya.
  */
-export function scanAudioNetwork(): ScannedAudio[] {
+export function scanAudioNetwork(): ScanResult<ScannedAudio> {
   const AUDIO_EXTS = ['mp3', 'wav', 'ogg', 'oga', 'm4a', 'aac', 'flac', 'opus', 'weba', 'mid', 'midi'];
 
   const scope = globalThis as typeof globalThis & {
@@ -283,5 +286,12 @@ export function scanAudioNetwork(): ScannedAudio[] {
     /* Resource Timing tak tersedia: cukup andalkan hook */
   }
 
-  return [...seen].map((url) => ({ url, title: '', ext: extOf(url), kind: 'network', playable: true }));
+  const items: ScannedAudio[] = [...seen].map((url) => ({
+    url,
+    title: '',
+    ext: extOf(url),
+    kind: 'network',
+    playable: true,
+  }));
+  return { items, total: items.length };
 }

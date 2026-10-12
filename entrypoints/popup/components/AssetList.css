@@ -2,6 +2,10 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  /* flex-child dari .ad-popup: izinkan menyusut (min-height:0) supaya
+     benar-benar bisa digulir, bukan meluber lalu terpotong overflow:hidden. */
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;

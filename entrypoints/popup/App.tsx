@@ -1,28 +1,34 @@
 import { useEffect, useState } from 'react';
 import type { ComponentType } from 'react';
-import { LoaderCircle, RefreshCw, Search } from 'lucide-react';
+import { ChevronDown, LoaderCircle, RefreshCw, Search } from 'lucide-react';
 import './components/AssetList.css';
 import './App.css';
 import { FEATURES, getFeature, type FeatureId, type PanelProps } from './features/registry';
 import { getActiveTab, runPageScan } from './shared/browser';
 import { toUserMessage } from './shared/errors';
-import { mergeByUrl } from './shared/merge';
+import { mergeScanResults } from './shared/merge';
+import { emptyScan } from './shared/scan';
 
 type Status = 'idle' | 'scanning' | 'done' | 'error';
 
 const ICON_SIZE = 15;
+/** Jumlah item yang dirender per "halaman" agar popup tetap ringan. */
+const PAGE_SIZE = 40;
 const LOGO_URL = browser.runtime.getURL('/logo-download.svg');
 
 function App() {
   const [featureId, setFeatureId] = useState<FeatureId>('images');
   const [status, setStatus] = useState<Status>('idle');
   const [items, setItems] = useState<unknown[]>([]);
+  const [total, setTotal] = useState(0);
+  const [visible, setVisible] = useState(0);
   const [error, setError] = useState('');
   const [tabHost, setTabHost] = useState('');
 
   const feature = getFeature(featureId);
   const ActivePanel: ComponentType<PanelProps> = feature.Panel;
   const scanning = status === 'scanning';
+  const shown = Math.min(visible, items.length);
 
   useEffect(() => {
     getActiveTab()
@@ -35,24 +41,32 @@ function App() {
     setStatus('idle');
     setError('');
     setItems([]);
+    setTotal(0);
+    setVisible(0);
   };
 
   const analyze = async () => {
     setStatus('scanning');
     setError('');
     setItems([]);
+    setTotal(0);
+    setVisible(0);
     try {
       const tab = await getActiveTab();
       setTabHost(tab.host);
-      const [domItems, networkItems] = await Promise.all([
+      const [domResult, networkResult] = await Promise.all([
         runPageScan(tab.id, feature.scan),
         // Pemindai MAIN world (mis. audio Web Audio): kegagalan di sini tidak
         // boleh menggagalkan hasil DOM yang sudah didapat.
         feature.scanNetwork
-          ? runPageScan(tab.id, feature.scanNetwork, 'MAIN').catch(() => [])
-          : Promise.resolve([]),
+          ? runPageScan(tab.id, feature.scanNetwork, 'MAIN').catch(emptyScan<unknown>)
+          : Promise.resolve(emptyScan<unknown>()),
       ]);
-      setItems(mergeByUrl(domItems, networkItems));
+      const result = mergeScanResults(domResult, networkResult);
+      setItems(result.items);
+      // `total` tak boleh lebih kecil dari jumlah item yang ada.
+      setTotal(Math.max(result.total, result.items.length));
+      setVisible(PAGE_SIZE);
       setStatus('done');
     } catch (caught) {
       setError(toUserMessage(caught));
@@ -115,9 +129,23 @@ function App() {
         )}
       </div>
 
-      {status === 'done' && (
+      {status === 'done' && total > 0 && (
         <p className="ad-count">
-          Ditemukan <strong>{items.length}</strong> {feature.noun}.
+          {total > items.length ? (
+            <>
+              Menampilkan <strong>{shown}</strong> dari <strong>{total}</strong> {feature.noun}.
+            </>
+          ) : (
+            <>
+              Ditemukan <strong>{total}</strong> {feature.noun}.
+            </>
+          )}
+        </p>
+      )}
+
+      {status === 'done' && items.length > 0 && items.length < total && (
+        <p className="ad-note">
+          Dipindai maksimal {items.length} hasil teratas; sisanya tidak dikirim agar halaman tetap ringan.
         </p>
       )}
 
@@ -131,7 +159,14 @@ function App() {
 
       {error && status !== 'scanning' && <p className="ad-error">{error}</p>}
 
-      {items.length > 0 && <ActivePanel items={items} onError={setError} />}
+      {items.length > 0 && <ActivePanel items={items.slice(0, visible)} onError={setError} />}
+
+      {visible < items.length && (
+        <button className="ad-more-btn" onClick={() => setVisible((count) => count + PAGE_SIZE)}>
+          <ChevronDown size={ICON_SIZE} />
+          Muat lebih banyak ({items.length - visible} tersisa)
+        </button>
+      )}
     </div>
   );
 }

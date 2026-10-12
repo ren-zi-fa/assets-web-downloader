@@ -1,3 +1,5 @@
+import { emptyScan, type ScanResult } from './scan';
+
 /** Tab aktif yang akan dipindai. */
 export interface ActiveTab {
   id: number;
@@ -21,7 +23,6 @@ export async function getActiveTab(): Promise<ActiveTab> {
 
 /** Konteks JS tempat skrip pemindai dijalankan. */
 export type PageWorld = 'ISOLATED' | 'MAIN';
-
 /**
  * Jalankan fungsi pemindai di dalam halaman tab target.
  * `pageFunction` WAJIB self-contained (diserialisasi ke halaman).
@@ -30,15 +31,15 @@ export type PageWorld = 'ISOLATED' | 'MAIN';
  */
 export async function runPageScan<T>(
   tabId: number,
-  pageFunction: () => T[],
+  pageFunction: () => ScanResult<T>,
   world: PageWorld = 'ISOLATED',
-): Promise<T[]> {
+): Promise<ScanResult<T>> {
   const [result] = await browser.scripting.executeScript({
     target: { tabId },
     func: pageFunction,
     world,
   });
-  return result?.result ?? [];
+  return (result?.result as ScanResult<T> | undefined) ?? emptyScan<T>();
 }
 
 /** Unduh URL langsung via browser (lolos CORS halaman). */

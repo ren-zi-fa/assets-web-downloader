@@ -1,3 +1,5 @@
+import type { ScanResult } from '../../shared/scan';
+
 export interface ScannedImage {
   url: string;
   alt: string;
@@ -18,7 +20,7 @@ export interface ScannedImage {
  * Iframe same-origin (mis. panel hasil W3Schools tryit) ditelusuri
  * rekursif; iframe cross-origin dilewati aman.
  */
-export function scanPageImages(): ScannedImage[] {
+export function scanPageImages(): ScanResult<ScannedImage> {
   const seen = new Map<string, ScannedImage>();
 
   type AddImage = (
@@ -220,5 +222,6 @@ export function scanPageImages(): ScannedImage[] {
   };
   walk(document);
 
-  return [...seen.values()].slice(0, 500);
+  const all = [...seen.values()];
+  return { items: all.slice(0, 500), total: all.length };
 }

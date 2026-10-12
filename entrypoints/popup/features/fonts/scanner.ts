@@ -1,3 +1,5 @@
+import type { ScanResult } from '../../shared/scan';
+
 export interface ScannedFont {
   family: string;
   detail: string;
@@ -15,7 +17,7 @@ export interface ScannedFont {
  * benar-benar dipakai (computed style, termasuk font sistem).
  * Iframe same-origin ditelusuri rekursif; cross-origin dilewati aman.
  */
-export function scanPageFonts(): ScannedFont[] {
+export function scanPageFonts(): ScanResult<ScannedFont> {
   const map = new Map<string, ScannedFont>();
 
   const baseOf = (doc: Document): string => {
@@ -150,7 +152,8 @@ export function scanPageFonts(): ScannedFont[] {
   };
   walk(document);
 
-  return [...map.values()]
-    .sort((a, b) => b.urls.length - a.urls.length || a.family.localeCompare(b.family))
-    .slice(0, 200);
+  const all = [...map.values()].sort(
+    (a, b) => b.urls.length - a.urls.length || a.family.localeCompare(b.family),
+  );
+  return { items: all.slice(0, 200), total: all.length };
 }

@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
 import { AudioLines, Images, Type, type LucideIcon } from 'lucide-react';
+import type { ScanResult } from '../shared/scan';
 import { AudioPanel } from './audio/AudioPanel';
 import { scanAudioNetwork, scanPageAudio } from './audio/scanner';
 import { FontPanel } from './fonts/FontPanel';
@@ -21,13 +22,13 @@ export interface FeatureEntry {
   noun: string;
   /** Penjelasan tambahan saat hasil kosong (mis. limitasi platform). */
   emptyHint?: string;
-  scan: () => unknown[];
+  scan: () => ScanResult<unknown>;
   /**
    * Pemindai tambahan di MAIN world (konteks JS halaman). Dipakai untuk
    * menjangkau aset yang tak terlihat di DOM, mis. audio Web Audio API.
    * Hasilnya digabung dengan `scan` dan di-dedupe per `url`.
    */
-  scanNetwork?: () => unknown[];
+  scanNetwork?: () => ScanResult<unknown>;
   Panel: ComponentType<PanelProps>;
 }
 
