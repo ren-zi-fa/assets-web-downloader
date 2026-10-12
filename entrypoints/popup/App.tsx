@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { ComponentType } from 'react';
-import { FolderDown, LoaderCircle, RefreshCw, Search } from 'lucide-react';
+import { LoaderCircle, RefreshCw, Search } from 'lucide-react';
 import './components/AssetList.css';
 import './App.css';
 import { FEATURES, getFeature, type FeatureId, type PanelProps } from './features/registry';
@@ -10,6 +10,7 @@ import { toUserMessage } from './shared/errors';
 type Status = 'idle' | 'scanning' | 'done' | 'error';
 
 const ICON_SIZE = 15;
+const LOGO_URL = browser.runtime.getURL('/logo-download.svg');
 
 function App() {
   const [featureId, setFeatureId] = useState<FeatureId>('images');
@@ -54,7 +55,7 @@ function App() {
     <div className="ad-popup">
       <header className="ad-header">
         <h1 className="ad-brand">
-          <FolderDown size={20} strokeWidth={2.25} />
+          <img className="ad-logo" src={LOGO_URL} alt="" />
           Asset Downloader
         </h1>
         <p>Pindai gambar, font & audio di tab aktif, lalu unduh satu per satu.</p>
