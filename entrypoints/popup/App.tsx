@@ -81,9 +81,9 @@ function App() {
           <img className="ad-logo" src={LOGO_URL} alt="" />
           Asset Downloader
         </h1>
-        <p>Pindai gambar, font & audio di tab aktif, lalu unduh satu per satu.</p>
+        <p>Scan images, fonts & audio on the active tab, then download them one by one.</p>
         <p className="ad-target">
-          Target: <strong>{tabHost || 'halaman khusus (tidak bisa dipindai)'}</strong>
+          Target: <strong>{tabHost || 'special page (cannot be scanned)'}</strong>
         </p>
       </header>
 
@@ -108,12 +108,12 @@ function App() {
           {scanning ? (
             <>
               <LoaderCircle size={ICON_SIZE} className="ad-spin" />
-              Memindai…
+              Scanning…
             </>
           ) : (
             <>
               <Search size={ICON_SIZE} />
-              {status === 'idle' ? `Analisis ${feature.noun}` : 'Analisis Ulang'}
+              {status === 'idle' ? `Analyze ${feature.noun}` : 'Analyze Again'}
             </>
           )}
         </button>
@@ -121,7 +121,7 @@ function App() {
           <button
             className="ad-refresh-btn"
             onClick={analyze}
-            title="Pindai ulang halaman ini"
+            title="Rescan this page"
           >
             <RefreshCw size={ICON_SIZE} />
             Refresh
@@ -133,11 +133,11 @@ function App() {
         <p className="ad-count">
           {total > items.length ? (
             <>
-              Menampilkan <strong>{shown}</strong> dari <strong>{total}</strong> {feature.noun}.
+              Showing <strong>{shown}</strong> of <strong>{total}</strong> {feature.noun}.
             </>
           ) : (
             <>
-              Ditemukan <strong>{total}</strong> {feature.noun}.
+              Found <strong>{total}</strong> {feature.noun}.
             </>
           )}
         </p>
@@ -145,12 +145,12 @@ function App() {
 
       {status === 'done' && items.length > 0 && items.length < total && (
         <p className="ad-note">
-          Dipindai maksimal {items.length} hasil teratas; sisanya tidak dikirim agar halaman tetap ringan.
+          Scanned up to the top {items.length} results; the rest are not sent to keep the page light.
         </p>
       )}
 
       {status === 'done' && items.length === 0 && (
-        <p className="ad-empty">Tidak ada {feature.noun} terdeteksi di halaman ini.</p>
+        <p className="ad-empty">No {feature.noun} detected on this page.</p>
       )}
 
       {status === 'done' && items.length === 0 && feature.emptyHint && (
@@ -164,7 +164,7 @@ function App() {
       {visible < items.length && (
         <button className="ad-more-btn" onClick={() => setVisible((count) => count + PAGE_SIZE)}>
           <ChevronDown size={ICON_SIZE} />
-          Muat lebih banyak ({items.length - visible} tersisa)
+          Load more ({items.length - visible} left)
         </button>
       )}
     </div>

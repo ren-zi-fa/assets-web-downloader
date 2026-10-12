@@ -6,13 +6,13 @@ import './AudioPanel.css';
 
 function describe(track: ScannedAudio): string {
   if (track.kind === 'stream') {
-    return `${track.ext || 'stream'} · playlist, belum didukung`;
+    return `${track.ext || 'stream'} · playlist, not supported yet`;
   }
   if (track.kind === 'network') {
-    return `${track.ext} · dari lalu lintas jaringan`;
+    return `${track.ext} · from network traffic`;
   }
   const parts = [track.ext, track.kind].filter(Boolean).join(' · ');
-  return track.playable ? parts : `${parts} · stream, tak bisa diunduh`;
+  return track.playable ? parts : `${parts} · stream, cannot be downloaded`;
 }
 
 /** Daftar hasil pemindaian audio + pemutar mini. */

@@ -4,7 +4,7 @@ const UNREADABLE_PAGE = /cannot access|chrome:\/\/|not allowed/i;
 export function toUserMessage(error: unknown): string {
   const raw = error instanceof Error ? error.message : String(error);
   if (UNREADABLE_PAGE.test(raw)) {
-    return 'Halaman ini tidak bisa dipindai. Buka situs biasa lalu coba lagi.';
+    return 'This page cannot be scanned. Open a regular website and try again.';
   }
   return raw;
 }

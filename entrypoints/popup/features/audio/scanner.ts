@@ -82,7 +82,7 @@ export function scanPageAudio(): ScanResult<ScannedAudio> {
     if (parsed.blob) {
       seen.set(parsed.url, {
         url: parsed.url,
-        title: title || 'aliran blob',
+        title: title || 'blob stream',
         ext: '',
         kind,
         playable: false,
@@ -126,7 +126,7 @@ export function scanPageAudio(): ScanResult<ScannedAudio> {
   const collectVideoElements = (doc: Document, base: string): void => {
     doc.querySelectorAll('video').forEach((node) => {
       const el = node as HTMLVideoElement;
-      const label = el.title || 'video (ada suara)';
+      const label = el.title || 'video (has audio)';
       add(el.currentSrc || el.src, label, 'video', base);
       el.querySelectorAll('source').forEach((s) => {
         add(s.getAttribute('src'), label, 'video', base);

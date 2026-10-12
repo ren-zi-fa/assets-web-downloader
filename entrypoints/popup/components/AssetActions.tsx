@@ -15,7 +15,7 @@ const ICON_SIZE = 13;
 /** Tombol Copy URL + Unduh yang dipakai semua panel fitur. */
 export function AssetActions({
   url,
-  downloadLabel = 'Unduh',
+  downloadLabel = 'Download',
   showDownload = true,
   onError,
 }: AssetActionsProps) {
@@ -31,7 +31,7 @@ export function AssetActions({
       window.clearTimeout(timer.current);
       timer.current = window.setTimeout(() => setCopied(false), COPY_FEEDBACK_MS);
     } catch {
-      onError('Gagal menyalin URL ke clipboard.');
+      onError('Failed to copy the URL to the clipboard.');
     }
   };
 
@@ -47,7 +47,7 @@ export function AssetActions({
     <div className="ad-actions">
       <button onClick={copy}>
         {copied ? <Check size={ICON_SIZE} /> : <Copy size={ICON_SIZE} />}
-        {copied ? 'Disalin!' : 'Copy URL'}
+        {copied ? 'Copied!' : 'Copy URL'}
       </button>
       {showDownload && (
         <button onClick={download}>

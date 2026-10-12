@@ -4,7 +4,7 @@ import type { PanelProps } from '../registry';
 import type { ScannedImage } from './scanner';
 
 function describe(image: ScannedImage): string {
-  const size = image.width > 0 ? `${image.width}×${image.height}` : 'ukuran?';
+  const size = image.width > 0 ? `${image.width}×${image.height}` : 'size?';
   return `${size} · ${image.source}`;
 }
 

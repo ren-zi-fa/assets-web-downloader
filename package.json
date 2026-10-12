@@ -1,6 +1,6 @@
 {
   "name": "asset-downloader",
-  "description": "Pindai dan unduh gambar, font, dan audio dari halaman web.",
+  "description": "Scan and download images, fonts, and audio from any web page.",
   "private": true,
   "license": "MIT",
   "version": "0.0.2",

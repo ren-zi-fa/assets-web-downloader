@@ -9,8 +9,8 @@ import './FontPanel.css';
 
 function downloadLabelFor(font: ScannedFont): string {
   const firstUrl = font.urls[0];
-  if (!firstUrl) return 'Unduh';
-  return `Unduh ${fileExtensionOf(firstUrl) || 'font'}`;
+  if (!firstUrl) return 'Download';
+  return `Download ${fileExtensionOf(firstUrl) || 'font'}`;
 }
 
 /** Daftar hasil pemindaian font. Klik nama font mencari di Google. */
@@ -34,14 +34,14 @@ export function FontPanel({ items, onError }: PanelProps) {
             <div
               className="ad-font-preview"
               style={{ fontFamily: `'${font.family}', sans-serif` }}
-              title="Klik nama font untuk cari di Google"
+              title="Click the font name to search on Google"
             >
               Ag
             </div>
             <div className="ad-meta">
               <button
                 className="ad-font-name"
-                title={`Cari "${font.family}" di Google`}
+                title={`Search "${font.family}" on Google`}
                 onClick={() => searchOnGoogle(font.family)}
               >
                 {font.family}
@@ -58,7 +58,7 @@ export function FontPanel({ items, onError }: PanelProps) {
                   onError={onError}
                 />
               ) : (
-                <span className="ad-sub">URL file tidak tersedia (font sistem/Google)</span>
+                <span className="ad-sub">File URL not available (system/Google font)</span>
               )}
             </div>
           </li>

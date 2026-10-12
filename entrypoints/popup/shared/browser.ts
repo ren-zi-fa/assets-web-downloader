@@ -17,7 +17,7 @@ function hostOf(url: string | undefined): string {
 /** Ambil tab aktif. Melempar jika tidak ada tab yang bisa dipindai. */
 export async function getActiveTab(): Promise<ActiveTab> {
   const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
-  if (!tab?.id) throw new Error('Tidak ada tab aktif yang bisa dipindai.');
+  if (!tab?.id) throw new Error('No active tab to scan.');
   return { id: tab.id, host: hostOf(tab.url) };
 }
 

@@ -124,7 +124,7 @@ export function scanPageFonts(): ScanResult<ScannedFont> {
     }
     used.forEach((count, fam) => {
       const entry = ensure(fam, 'page');
-      if (entry && !entry.detail) entry.detail = `dipakai ±${count} elemen`;
+      if (entry && !entry.detail) entry.detail = `used by ~${count} elements`;
     });
   };
 

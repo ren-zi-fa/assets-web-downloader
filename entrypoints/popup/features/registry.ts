@@ -37,15 +37,15 @@ export interface FeatureEntry {
  * di `features/` + satu baris di sini. App tidak perlu diubah.
  */
 export const FEATURES: FeatureEntry[] = [
-  { id: 'images', label: 'Gambar', icon: Images, noun: 'gambar', scan: scanPageImages, Panel: ImagePanel },
-  { id: 'fonts', label: 'Font', icon: Type, noun: 'font', scan: scanPageFonts, Panel: FontPanel },
+  { id: 'images', label: 'Images', icon: Images, noun: 'images', scan: scanPageImages, Panel: ImagePanel },
+  { id: 'fonts', label: 'Font', icon: Type, noun: 'fonts', scan: scanPageFonts, Panel: FontPanel },
   {
     id: 'audio',
     label: 'Audio',
     icon: AudioLines,
     noun: 'audio',
     emptyHint:
-      'Catatan: audio Web Audio (mis. howler.js) dideteksi lewat lalu lintas jaringan. Streaming tersegmentasi (Spotify, YouTube, SoundCloud) tetap bisa kosong.',
+      'Note: Web Audio sounds (e.g. howler.js) are detected from network traffic. Segmented streams (Spotify, YouTube, SoundCloud) may still come up empty.',
     scan: scanPageAudio,
     scanNetwork: scanAudioNetwork,
     Panel: AudioPanel,
