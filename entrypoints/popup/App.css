@@ -1,0 +1,128 @@
+#root {
+  margin: 0;
+  padding: 0;
+}
+
+.ad-popup {
+  width: 400px;
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  text-align: left;
+  overflow: hidden;
+}
+
+.ad-header h1 {
+  font-size: 1.2em;
+  line-height: 1.2;
+  margin: 0 0 2px;
+}
+
+.ad-header p {
+  margin: 0;
+  font-size: 0.85em;
+  color: #888;
+}
+
+.ad-target {
+  margin-top: 4px !important;
+}
+
+.ad-scan-btn {
+  flex: 1;
+}
+
+.ad-toolbar {
+  display: flex;
+  gap: 8px;
+}
+
+.ad-refresh-btn {
+  white-space: nowrap;
+}
+
+.ad-scan-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.ad-count {
+  margin: 0;
+  font-size: 0.9em;
+}
+
+.ad-empty {
+  font-size: 0.9em;
+  color: #888;
+}
+
+.ad-error {
+  font-size: 0.85em;
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin: 0;
+}
+
+.ad-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ad-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.ad-thumb {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: rgba(128, 128, 128, 0.2);
+}
+
+.ad-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.ad-name {
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ad-sub {
+  font-size: 0.75em;
+  color: #888;
+}
+
+.ad-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.ad-actions button {
+  padding: 0.3em 0.7em;
+  font-size: 0.8em;
+}
