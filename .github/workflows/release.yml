@@ -1,6 +1,5 @@
 name: Release
 
-# Dipicu saat push tag versi, mis. v0.0.1
 on:
   push:
     tags: ['v*']
@@ -13,7 +12,6 @@ jobs:
     name: Build & publish release
     runs-on: ubuntu-latest
     env:
-      # Kosongkan (biarkan unset) di repo Secrets bila tidak ingin signing AMO.
       WEB_EXT_API_KEY: ${{ secrets.AMO_API_KEY }}
       WEB_EXT_API_SECRET: ${{ secrets.AMO_API_SECRET }}
     steps:
@@ -39,9 +37,7 @@ jobs:
 
       - name: Build Firefox (zip)
         run: pnpm zip:firefox
-
-      # Opsional: tandatangani paket Firefox via AMO (unlisted).
-      # Hanya jalan bila secret AMO_API_KEY / AMO_API_SECRET diisi.
+        
       - name: Sign Firefox package (AMO, optional)
         if: ${{ env.WEB_EXT_API_KEY != '' }}
         run: >
