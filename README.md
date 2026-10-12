@@ -21,76 +21,50 @@ Chromium browsers and **Manifest V2** for Firefox.
 - **Download or copy** the URL of any detected asset.
 - Scans **same-origin iframes** recursively; cross-origin iframes are skipped safely.
 
-## Install manually (from source)
+## Install manually
 
-You do not need to publish the extension to a store. Build it locally and load
-it as an unpacked extension.
+Get the ready-to-install package from the
+**[Releases page](https://github.com/ren-zi-fa/assets-web-downloader/releases/latest)** —
+no build tools required.
 
-### 1. Requirements
+### 1. Download the release package
 
-- [Node.js](https://nodejs.org) **22 or newer** (includes **npm**)
+1. Open the [**Releases**](https://github.com/ren-zi-fa/assets-web-downloader/releases)
+   page and pick the latest version.
+2. Under **Assets**, download the archive for your browser:
 
-```bash
-node --version   # must be v22+
-npm --version
-```
+   | Browser | Download this file |
+   |---|---|
+   | Chrome / Edge / Brave | `asset-downloader-<version>-chrome.zip` |
+   | Firefox | `asset-downloader-<version>-firefox.zip` |
 
-> [pnpm](https://pnpm.io) is optional. If you prefer it and already have it,
-> just swap `npm run <script>` for `pnpm <script>` in the commands below.
+3. **Unzip** the archive. You will get a folder containing `manifest.json`,
+   `background.js`, and `popup.html`.
 
-### 2. Get the code and build
-
-```bash
-git clone <your-repository-url> asset-downloader
-cd asset-downloader
-npm install
-```
-
-Then build the package for the browser you use:
-
-```bash
-# Chrome / Edge / Brave (Manifest V3)
-npm run build
-
-# Firefox (Manifest V2)
-npm run build:firefox
-```
-
-The build output goes to:
-
-- Chrome: `.output/chrome-mv3`
-- Firefox: `.output/firefox-mv2`
-
-> Prefer a ready-to-install archive? `npm run zip` and `npm run zip:firefox`
-> create `.output/asset-downloader-<version>-chrome.zip` and
-> `.output/asset-downloader-<version>-firefox.zip`. Unzip them and use the folder
-> that contains `manifest.json`.
-
-### 3. Load it in Chrome / Edge / Brave
+### 2. Load it in Chrome / Edge / Brave
 
 1. Open `chrome://extensions` (or `edge://extensions`).
 2. Turn on **Developer mode** (top-right).
 3. Click **Load unpacked**.
-4. Select the **`.output/chrome-mv3`** folder.
+4. Select the **unzipped folder** (the one containing `manifest.json`).
 5. The extension appears in your toolbar.
 
-### 4. Load it in Firefox
+### 3. Load it in Firefox
 
 **Quick way — temporary add-on (no signing):**
 
 1. Open `about:debugging#/runtime/this-firefox`.
 2. Click **Load Temporary Add-on…**.
-3. Select **`.output/firefox-mv2/manifest.json`** (pick the file, not the folder).
+3. Select the **`manifest.json`** inside the unzipped folder (pick the file, not the folder).
 4. The extension is active until you close Firefox.
 
-**Permanent install:** Firefox release builds require a signed add-on. Either
-create an unsigned build on Developer Edition/Nightly (`about:config` →
-`xpinstall.signatures.required = false`) or sign the package with
-`npm exec web-ext sign --source-dir .output/firefox-mv2 --channel unlisted`
-using your AMO API credentials, then install the resulting `.xpi` via
-`about:addons` → gear icon → **Install Add-on From File…**.
+**Permanent install:** Firefox release builds require a signed add-on, so the
+`.zip` cannot be installed permanently as-is. Use Firefox Developer Edition or
+Nightly (`about:config` → `xpinstall.signatures.required = false`), or wait for a
+signed `.xpi` to be attached to the Release once signing is enabled — then
+install it via `about:addons` → gear icon → **Install Add-on From File…**.
 
-### 5. Use it
+### 4. Use it
 
 1. Open any normal website (e.g. a gallery or an image-heavy page).
 2. Click the Asset Downloader icon in the toolbar.
@@ -101,26 +75,14 @@ using your AMO API credentials, then install the resulting `.xpi` via
 > The extension cannot scan browser-internal pages (e.g. `about:`, `chrome://`,
 > `edge://`, or the New Tab page). Open a regular `http(s)` page instead.
 
-## Development
-
-```bash
-npm run dev           # Chrome with hot reload
-npm run dev:brave     # Chrome with hot reload, using the Brave binary
-npm run dev:firefox   # Firefox with hot reload
-npm run compile       # TypeScript type-check only
-```
-
 ## Updates
 
-```bash
-git pull
-npm install
-npm run build          # or: npm run build:firefox
-```
-
-Then reload the extension: in Chrome press the reload icon on the extension card
-at `chrome://extensions`; in Firefox click **Reload** at
-`about:debugging#/runtime/this-firefox`.
+1. Download the newer package from the
+   [Releases page](https://github.com/ren-zi-fa/assets-web-downloader/releases/latest).
+2. Unzip it over your existing folder (replace the old files).
+3. Reload the extension:
+   - Chrome: press the reload icon on the extension card at `chrome://extensions`.
+   - Firefox: click **Reload** at `about:debugging#/runtime/this-firefox`.
 
 ## Troubleshooting
 
@@ -129,8 +91,29 @@ at `chrome://extensions`; in Firefox click **Reload** at
 | "No active tab to scan." | Open a normal `http(s)` page and click the extension icon again. |
 | Popup says the page cannot be scanned | Browser-internal pages cannot be injected. Use a regular website. |
 | Downloads do nothing | Check that the site's assets are reachable and that the extension still has the **Downloads** permission. |
-| Old icon or stale build | Reload the extension after building (`chrome://extensions` or `about:debugging`). |
+| Old icon or stale build | Reload the extension after replacing the files (`chrome://extensions` or `about:debugging`). |
 | Audio not found on a music site | Segmented/encrypted streams (Spotify, YouTube, SoundCloud) expose no single file; an empty result is expected there. |
+
+## Building from source
+
+Only needed if you want to modify the code or cut your own package.
+
+Requirements: [Node.js](https://nodejs.org) **22 or newer** (npm included).
+
+```bash
+git clone https://github.com/ren-zi-fa/assets-web-downloader.git
+cd assets-web-downloader
+npm install
+
+npm run dev           # Chrome with hot reload
+npm run dev:firefox   # Firefox with hot reload
+npm run compile       # TypeScript type-check only
+
+npm run zip           # Chrome package  -> .output/asset-downloader-<version>-chrome.zip
+npm run zip:firefox   # Firefox package -> .output/asset-downloader-<version>-firefox.zip
+```
+
+> Prefer [pnpm](https://pnpm.io)? Just swap `npm run <script>` for `pnpm <script>`.
 
 ## License
 
