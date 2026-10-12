@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react';
+import { AudioLines, Images, Type, type LucideIcon } from 'lucide-react';
 import { AudioPanel } from './audio/AudioPanel';
 import { scanPageAudio } from './audio/scanner';
 import { FontPanel } from './fonts/FontPanel';
@@ -15,7 +16,8 @@ export interface PanelProps {
 
 export interface FeatureEntry {
   id: FeatureId;
-  tabLabel: string;
+  label: string;
+  icon: LucideIcon;
   noun: string;
   /** Penjelasan tambahan saat hasil kosong (mis. limitasi platform). */
   emptyHint?: string;
@@ -28,11 +30,12 @@ export interface FeatureEntry {
  * di `features/` + satu baris di sini. App tidak perlu diubah.
  */
 export const FEATURES: FeatureEntry[] = [
-  { id: 'images', tabLabel: '🖼️ Gambar', noun: 'gambar', scan: scanPageImages, Panel: ImagePanel },
-  { id: 'fonts', tabLabel: '🔤 Font', noun: 'font', scan: scanPageFonts, Panel: FontPanel },
+  { id: 'images', label: 'Gambar', icon: Images, noun: 'gambar', scan: scanPageImages, Panel: ImagePanel },
+  { id: 'fonts', label: 'Font', icon: Type, noun: 'font', scan: scanPageFonts, Panel: FontPanel },
   {
     id: 'audio',
-    tabLabel: '🎵 Audio',
+    label: 'Audio',
+    icon: AudioLines,
     noun: 'audio',
     emptyHint:
       'Catatan: Spotify, YouTube, SoundCloud, dll. memutar via streaming terenkripsi/segmen tanpa file langsung — wajar jika kosong di sana.',

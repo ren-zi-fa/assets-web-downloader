@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Check, Copy, Download } from 'lucide-react';
 import { copyText, downloadUrl } from '../shared/browser';
 
 interface AssetActionsProps {
@@ -9,6 +10,7 @@ interface AssetActionsProps {
 }
 
 const COPY_FEEDBACK_MS = 1500;
+const ICON_SIZE = 13;
 
 /** Tombol Copy URL + Unduh yang dipakai semua panel fitur. */
 export function AssetActions({
@@ -43,8 +45,16 @@ export function AssetActions({
 
   return (
     <div className="ad-actions">
-      <button onClick={copy}>{copied ? 'Disalin!' : 'Copy URL'}</button>
-      {showDownload && <button onClick={download}>{downloadLabel}</button>}
+      <button onClick={copy}>
+        {copied ? <Check size={ICON_SIZE} /> : <Copy size={ICON_SIZE} />}
+        {copied ? 'Disalin!' : 'Copy URL'}
+      </button>
+      {showDownload && (
+        <button onClick={download}>
+          <Download size={ICON_SIZE} />
+          {downloadLabel}
+        </button>
+      )}
     </div>
   );
 }

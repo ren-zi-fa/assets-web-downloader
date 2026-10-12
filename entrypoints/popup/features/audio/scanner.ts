@@ -18,13 +18,22 @@ const PLAYLIST_EXTS = ['m3u8', 'mpd', 'm3u', 'pls'];
  * Sumber: elemen <audio>, <source>, <video> (ada track suara), link <a>
  * yang mengarah ke file audio, dan meta og:audio. URL blob: dan playlist
  * HLS/DASH (.m3u8/.mpd) ditandai tak bisa diputar/diunduh dari extension.
+ * Iframe same-origin ditelusuri rekursif; cross-origin dilewati aman.
  */
 export function scanPageAudio(): ScannedAudio[] {
   const seen = new Map<string, ScannedAudio>();
 
-  const toAbs = (src: string): { url: string; blob: boolean } | null => {
+  const baseOf = (doc: Document): string => {
     try {
-      const u = new URL(src, location.href);
+      return doc.baseURI || location.href;
+    } catch {
+      return location.href;
+    }
+  };
+
+  const toAbs = (src: string, base: string): { url: string; blob: boolean } | null => {
+    try {
+      const u = new URL(src, base);
       if (u.protocol === 'blob:') return { url: u.href, blob: true };
       if (u.protocol !== 'http:' && u.protocol !== 'https:' && u.protocol !== 'data:') return null;
       return { url: u.href, blob: false };
@@ -58,9 +67,9 @@ export function scanPageAudio(): ScannedAudio[] {
     }
   };
 
-  const add = (raw: string | null, title: string, kind: ScannedAudio['kind']): void => {
+  const add = (raw: string | null, title: string, kind: ScannedAudio['kind'], base: string): void => {
     if (!raw) return;
-    const parsed = toAbs(raw.trim());
+    const parsed = toAbs(raw.trim(), base);
     if (!parsed || seen.has(parsed.url)) return;
     if (parsed.blob) {
       seen.set(parsed.url, {
@@ -94,51 +103,71 @@ export function scanPageAudio(): ScannedAudio[] {
   };
 
   /** <audio src> + <audio><source>. */
-  const collectAudioElements = (): void => {
-    document.querySelectorAll('audio').forEach((node) => {
+  const collectAudioElements = (doc: Document, base: string): void => {
+    doc.querySelectorAll('audio').forEach((node) => {
       const el = node as HTMLAudioElement;
       const label = el.title || el.getAttribute('aria-label') || '';
-      add(el.currentSrc || el.src, label, 'audio');
+      add(el.currentSrc || el.src, label, 'audio', base);
       el.querySelectorAll('source').forEach((s) => {
-        add(s.getAttribute('src'), label, 'source');
+        add(s.getAttribute('src'), label, 'source', base);
       });
     });
   };
 
   /** <video src> + <video><source> (video mengandung track suara). */
-  const collectVideoElements = (): void => {
-    document.querySelectorAll('video').forEach((node) => {
+  const collectVideoElements = (doc: Document, base: string): void => {
+    doc.querySelectorAll('video').forEach((node) => {
       const el = node as HTMLVideoElement;
       const label = el.title || 'video (ada suara)';
-      add(el.currentSrc || el.src, label, 'video');
+      add(el.currentSrc || el.src, label, 'video', base);
       el.querySelectorAll('source').forEach((s) => {
-        add(s.getAttribute('src'), label, 'video');
+        add(s.getAttribute('src'), label, 'video', base);
       });
     });
   };
 
   /** Link langsung ke file audio. */
-  const collectAudioLinks = (): void => {
-    document.querySelectorAll('a[href]').forEach((node) => {
+  const collectAudioLinks = (doc: Document, base: string): void => {
+    doc.querySelectorAll('a[href]').forEach((node) => {
       const href = node.getAttribute('href');
       const text = (node.textContent || '').trim().slice(0, 80);
-      add(href, text, 'link');
+      add(href, text, 'link', base);
     });
   };
 
   /** Meta og:audio / twitter:player:stream di <head>. */
-  const collectAudioMeta = (): void => {
-    document
+  const collectAudioMeta = (doc: Document, base: string): void => {
+    doc
       .querySelectorAll('meta[property="og:audio"], meta[property="og:audio:url"], meta[name="twitter:player:stream"]')
       .forEach((node) => {
-        add(node.getAttribute('content'), '', 'link');
+        add(node.getAttribute('content'), '', 'link', base);
       });
   };
 
-  collectAudioElements();
-  collectVideoElements();
-  collectAudioLinks();
-  collectAudioMeta();
+  const visit = (doc: Document): void => {
+    const base = baseOf(doc);
+    collectAudioElements(doc, base);
+    collectVideoElements(doc, base);
+    collectAudioLinks(doc, base);
+    collectAudioMeta(doc, base);
+  };
+
+  const visited = new Set<Document>();
+  const walk = (doc: Document | null | undefined): void => {
+    if (!doc || visited.has(doc)) return;
+    visited.add(doc);
+    visit(doc);
+    doc.querySelectorAll('iframe').forEach((node) => {
+      let inner: Document | null = null;
+      try {
+        inner = (node as HTMLIFrameElement).contentDocument;
+      } catch {
+        inner = null; // iframe cross-origin: tak boleh dibaca
+      }
+      walk(inner);
+    });
+  };
+  walk(document);
 
   return [...seen.values()].slice(0, 200);
 }

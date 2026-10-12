@@ -14,6 +14,9 @@ export interface ScannedImage {
  * Helper kecil (toAbs, regex url) SENGAJA duplikat per fitur karena
  * aturan ini — lihat versi kanonis sisi-popup di `shared/url.ts`.
  * Helper di bawah didefinisikan BERSARANG agar ikut terserialisasi.
+ *
+ * Iframe same-origin (mis. panel hasil W3Schools tryit) ditelusuri
+ * rekursif; iframe cross-origin dilewati aman.
  */
 export function scanPageImages(): ScannedImage[] {
   const seen = new Map<string, ScannedImage>();
@@ -24,11 +27,20 @@ export function scanPageImages(): ScannedImage[] {
     w: number,
     h: number,
     source: ScannedImage['source'],
+    base: string,
   ) => void;
 
-  const toAbs = (src: string): string | null => {
+  const baseOf = (doc: Document): string => {
     try {
-      const u = new URL(src, location.href);
+      return doc.baseURI || location.href;
+    } catch {
+      return location.href;
+    }
+  };
+
+  const toAbs = (src: string, base: string): string | null => {
+    try {
+      const u = new URL(src, base);
       if (u.protocol !== 'http:' && u.protocol !== 'https:' && u.protocol !== 'data:') {
         return null;
       }
@@ -66,9 +78,9 @@ export function scanPageImages(): ScannedImage[] {
     }
   };
 
-  const add: AddImage = (raw, alt, w, h, source) => {
+  const add: AddImage = (raw, alt, w, h, source, base) => {
     if (!raw) return;
-    const absolute = toAbs(raw.trim());
+    const absolute = toAbs(raw.trim(), base);
     if (!absolute) return;
     const url = upgradeCdnSize(absolute);
     if (seen.has(url)) return;
@@ -107,56 +119,56 @@ export function scanPageImages(): ScannedImage[] {
   };
 
   /** <img>: src / currentSrc / srcset / atribut lazy-load umum. */
-  const collectImgElements = (): void => {
-    document.querySelectorAll('img').forEach((node) => {
+  const collectImgElements = (doc: Document, base: string): void => {
+    doc.querySelectorAll('img').forEach((node) => {
       const el = node as HTMLImageElement;
       if (el.srcset) {
         const best = pickFromSrcset(el.srcset);
-        if (best) add(best, el.alt, el.naturalWidth, el.naturalHeight, 'srcset');
+        if (best) add(best, el.alt, el.naturalWidth, el.naturalHeight, 'srcset', base);
       }
-      add(el.currentSrc || el.src, el.alt, el.naturalWidth, el.naturalHeight, 'img');
+      add(el.currentSrc || el.src, el.alt, el.naturalWidth, el.naturalHeight, 'img', base);
       for (const attr of ['data-src', 'data-lazy-src', 'data-original']) {
-        add(el.getAttribute(attr), el.alt, el.naturalWidth, el.naturalHeight, 'lazy');
+        add(el.getAttribute(attr), el.alt, el.naturalWidth, el.naturalHeight, 'lazy', base);
       }
     });
   };
 
   /** <picture><source srcset>. */
-  const collectPictureSources = (): void => {
-    document.querySelectorAll('picture source').forEach((node) => {
+  const collectPictureSources = (doc: Document, base: string): void => {
+    doc.querySelectorAll('picture source').forEach((node) => {
       const srcset = node.getAttribute('srcset');
       if (srcset) {
         const best = pickFromSrcset(srcset);
-        if (best) add(best, '', 0, 0, 'picture');
+        if (best) add(best, '', 0, 0, 'picture', base);
       }
-      add(node.getAttribute('src'), '', 0, 0, 'picture');
+      add(node.getAttribute('src'), '', 0, 0, 'picture', base);
     });
   };
 
   /** Poster <video>. */
-  const collectVideoPosters = (): void => {
-    document.querySelectorAll('video[poster]').forEach((node) => {
+  const collectVideoPosters = (doc: Document, base: string): void => {
+    doc.querySelectorAll('video[poster]').forEach((node) => {
       const v = node as HTMLVideoElement;
-      add(node.getAttribute('poster'), '', v.videoWidth, v.videoHeight, 'poster');
+      add(node.getAttribute('poster'), '', v.videoWidth, v.videoHeight, 'poster', base);
     });
   };
 
   /**
    * CSS background-image (inline style maupun dari stylesheet).
    * Kartu portfolio React biasanya memakai style={{ backgroundImage }}.
-   * Dibatasi 5000 elemen.
+   * Dibatasi 5000 elemen per dokumen.
    */
-  const collectBackgroundImages = (): void => {
+  const collectBackgroundImages = (doc: Document, base: string): void => {
     const bgUrlRe = /url\(["']?([^"')]+)["']?\)/g;
     const addBackgrounds = (cssText: string | null): void => {
       if (!cssText || cssText === 'none') return;
       bgUrlRe.lastIndex = 0;
       let m: RegExpExecArray | null;
       while ((m = bgUrlRe.exec(cssText)) !== null) {
-        if (m[1]) add(m[1], '', 0, 0, 'background');
+        if (m[1]) add(m[1], '', 0, 0, 'background', base);
       }
     };
-    const all = document.querySelectorAll('*');
+    const all = doc.querySelectorAll('*');
     const limit = Math.min(all.length, 5000);
     for (let i = 0; i < limit; i++) {
       const el = all[i] as HTMLElement;
@@ -169,24 +181,44 @@ export function scanPageImages(): ScannedImage[] {
   };
 
   /** Favicon, apple-touch-icon, dan meta og:image / twitter:image. */
-  const collectHeadImages = (): void => {
-    document
+  const collectHeadImages = (doc: Document, base: string): void => {
+    doc
       .querySelectorAll('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"], link[rel="image_src"]')
       .forEach((node) => {
-        add(node.getAttribute('href'), 'favicon', 0, 0, 'icon');
+        add(node.getAttribute('href'), 'favicon', 0, 0, 'icon', base);
       });
-    document
+    doc
       .querySelectorAll('meta[property="og:image"], meta[name="twitter:image"]')
       .forEach((node) => {
-        add(node.getAttribute('content'), 'meta', 0, 0, 'meta');
+        add(node.getAttribute('content'), 'meta', 0, 0, 'meta', base);
       });
   };
 
-  collectImgElements();
-  collectPictureSources();
-  collectVideoPosters();
-  collectBackgroundImages();
-  collectHeadImages();
+  const visit = (doc: Document): void => {
+    const base = baseOf(doc);
+    collectImgElements(doc, base);
+    collectPictureSources(doc, base);
+    collectVideoPosters(doc, base);
+    collectBackgroundImages(doc, base);
+    collectHeadImages(doc, base);
+  };
+
+  const visited = new Set<Document>();
+  const walk = (doc: Document | null | undefined): void => {
+    if (!doc || visited.has(doc)) return;
+    visited.add(doc);
+    visit(doc);
+    doc.querySelectorAll('iframe').forEach((node) => {
+      let inner: Document | null = null;
+      try {
+        inner = (node as HTMLIFrameElement).contentDocument;
+      } catch {
+        inner = null; // iframe cross-origin: tak boleh dibaca
+      }
+      walk(inner);
+    });
+  };
+  walk(document);
 
   return [...seen.values()].slice(0, 500);
 }

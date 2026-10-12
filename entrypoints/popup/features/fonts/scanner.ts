@@ -13,13 +13,22 @@ export interface ScannedFont {
  * Sumber: aturan @font-face stylesheet same-origin (ada URL file -> bisa
  * diunduh), <link> Google Fonts (nama keluarga saja), dan font yang
  * benar-benar dipakai (computed style, termasuk font sistem).
+ * Iframe same-origin ditelusuri rekursif; cross-origin dilewati aman.
  */
 export function scanPageFonts(): ScannedFont[] {
   const map = new Map<string, ScannedFont>();
 
-  const toAbs = (src: string): string | null => {
+  const baseOf = (doc: Document): string => {
     try {
-      const u = new URL(src, location.href);
+      return doc.baseURI || location.href;
+    } catch {
+      return location.href;
+    }
+  };
+
+  const toAbs = (src: string, base: string): string | null => {
+    try {
+      const u = new URL(src, base);
       if (u.protocol !== 'http:' && u.protocol !== 'https:') return null;
       return u.href;
     } catch {
@@ -41,14 +50,14 @@ export function scanPageFonts(): ScannedFont[] {
     return entry;
   };
 
-  const addUrls = (entry: ScannedFont, src: string | null): void => {
+  const addUrls = (entry: ScannedFont, src: string | null, base: string): void => {
     if (!src) return;
     const re = /url\(["']?([^"')]+)["']?\)/g;
     re.lastIndex = 0;
     let m: RegExpExecArray | null;
     while ((m = re.exec(src)) !== null) {
       if (!m[1]) continue;
-      const u = toAbs(m[1].trim());
+      const u = toAbs(m[1].trim(), base);
       if (u && !entry.urls.includes(u)) entry.urls.push(u);
     }
   };
@@ -61,7 +70,7 @@ export function scanPageFonts(): ScannedFont[] {
 
   // Aturan @font-face (stylesheet cross-origin dilewati aman).
   // type 5 === CSSRule.FONT_FACE_RULE.
-  const collectFontFaces = (): void => {
+  const collectFontFaces = (doc: Document, base: string): void => {
     const walkRules = (rules: CSSRuleList | null | undefined): void => {
       if (!rules) return;
       for (const r of Array.from(rules)) {
@@ -69,7 +78,7 @@ export function scanPageFonts(): ScannedFont[] {
           const style = (r as CSSFontFaceRule).style;
           const entry = ensure(style.getPropertyValue('font-family'), 'font-face');
           if (!entry) continue;
-          addUrls(entry, style.getPropertyValue('src'));
+          addUrls(entry, style.getPropertyValue('src'), base);
           addDetail(
             entry,
             `${style.getPropertyValue('font-weight')} ${style.getPropertyValue('font-style')}`.trim(),
@@ -79,7 +88,7 @@ export function scanPageFonts(): ScannedFont[] {
         }
       }
     };
-    for (const sheet of Array.from(document.styleSheets)) {
+    for (const sheet of Array.from(doc.styleSheets)) {
       try {
         walkRules(sheet.cssRules);
       } catch {
@@ -89,8 +98,8 @@ export function scanPageFonts(): ScannedFont[] {
   };
 
   // <link> Google Fonts -> nama keluarga (tanpa URL file).
-  const collectGoogleFontsLinks = (): void => {
-    document.querySelectorAll('link[href*="fonts.googleapis.com"]').forEach((node) => {
+  const collectGoogleFontsLinks = (doc: Document): void => {
+    doc.querySelectorAll('link[href*="fonts.googleapis.com"]').forEach((node) => {
       const href = node.getAttribute('href') || '';
       for (const part of href.split(/[&?]/)) {
         if (!part.startsWith('family=')) continue;
@@ -101,8 +110,8 @@ export function scanPageFonts(): ScannedFont[] {
   };
 
   // Font yang benar-benar dipakai di halaman (termasuk font sistem).
-  const collectUsedFonts = (): void => {
-    const all = document.querySelectorAll('*');
+  const collectUsedFonts = (doc: Document): void => {
+    const all = doc.querySelectorAll('*');
     const limit = Math.min(all.length, 2000);
     const used = new Map<string, number>();
     for (let i = 0; i < limit; i++) {
@@ -117,9 +126,29 @@ export function scanPageFonts(): ScannedFont[] {
     });
   };
 
-  collectFontFaces();
-  collectGoogleFontsLinks();
-  collectUsedFonts();
+  const visit = (doc: Document): void => {
+    const base = baseOf(doc);
+    collectFontFaces(doc, base);
+    collectGoogleFontsLinks(doc);
+    collectUsedFonts(doc);
+  };
+
+  const visited = new Set<Document>();
+  const walk = (doc: Document | null | undefined): void => {
+    if (!doc || visited.has(doc)) return;
+    visited.add(doc);
+    visit(doc);
+    doc.querySelectorAll('iframe').forEach((node) => {
+      let inner: Document | null = null;
+      try {
+        inner = (node as HTMLIFrameElement).contentDocument;
+      } catch {
+        inner = null; // iframe cross-origin: tak boleh dibaca
+      }
+      walk(inner);
+    });
+  };
+  walk(document);
 
   return [...map.values()]
     .sort((a, b) => b.urls.length - a.urls.length || a.family.localeCompare(b.family))
