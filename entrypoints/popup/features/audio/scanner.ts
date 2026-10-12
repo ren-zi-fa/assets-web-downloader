@@ -3,19 +3,21 @@ export interface ScannedAudio {
   /** Judul asli jika ada, string kosong jika tidak diketahui (UI pakai nama file). */
   title: string;
   ext: string;
-  kind: 'audio' | 'source' | 'link' | 'video';
+  kind: 'audio' | 'source' | 'link' | 'video' | 'stream';
   playable: boolean;
 }
 
 const AUDIO_EXTS = ['mp3', 'wav', 'ogg', 'oga', 'm4a', 'aac', 'flac', 'opus', 'weba', 'mid', 'midi'];
+/** Playlist streaming (HLS/DASH): bukan file musik, tak bisa diunduh langsung. */
+const PLAYLIST_EXTS = ['m3u8', 'mpd', 'm3u', 'pls'];
 
 /**
  * Dipindai di dalam halaman via `browser.scripting.executeScript`.
  * WAJIB self-contained seperti scanner lainnya (helper BERSARANG).
  *
- * Sumber: elemen <audio>, <source>, <video> (ada track suara), dan
- * link <a> yang mengarah ke file audio. URL blob: ditandai tidak
- * bisa diputar/diunduh dari extension.
+ * Sumber: elemen <audio>, <source>, <video> (ada track suara), link <a>
+ * yang mengarah ke file audio, dan meta og:audio. URL blob: dan playlist
+ * HLS/DASH (.m3u8/.mpd) ditandai tak bisa diputar/diunduh dari extension.
  */
 export function scanPageAudio(): ScannedAudio[] {
   const seen = new Map<string, ScannedAudio>();
@@ -46,6 +48,16 @@ export function scanPageAudio(): ScannedAudio[] {
     return extOf(url) !== '';
   };
 
+  const playlistExtOf = (url: string): string => {
+    try {
+      const path = new URL(url).pathname.split('/').pop() || '';
+      const ext = ((path.split('.').pop() || '').toLowerCase().split('?')[0] ?? '');
+      return PLAYLIST_EXTS.includes(ext) ? ext : '';
+    } catch {
+      return '';
+    }
+  };
+
   const add = (raw: string | null, title: string, kind: ScannedAudio['kind']): void => {
     if (!raw) return;
     const parsed = toAbs(raw.trim());
@@ -56,6 +68,17 @@ export function scanPageAudio(): ScannedAudio[] {
         title: title || 'aliran blob',
         ext: '',
         kind,
+        playable: false,
+      });
+      return;
+    }
+    const playlistExt = playlistExtOf(parsed.url);
+    if (playlistExt) {
+      seen.set(parsed.url, {
+        url: parsed.url,
+        title: title.slice(0, 120),
+        ext: playlistExt,
+        kind: 'stream',
         playable: false,
       });
       return;
@@ -103,9 +126,19 @@ export function scanPageAudio(): ScannedAudio[] {
     });
   };
 
+  /** Meta og:audio / twitter:player:stream di <head>. */
+  const collectAudioMeta = (): void => {
+    document
+      .querySelectorAll('meta[property="og:audio"], meta[property="og:audio:url"], meta[name="twitter:player:stream"]')
+      .forEach((node) => {
+        add(node.getAttribute('content'), '', 'link');
+      });
+  };
+
   collectAudioElements();
   collectVideoElements();
   collectAudioLinks();
+  collectAudioMeta();
 
   return [...seen.values()].slice(0, 200);
 }

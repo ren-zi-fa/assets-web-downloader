@@ -17,6 +17,8 @@ export interface FeatureEntry {
   id: FeatureId;
   tabLabel: string;
   noun: string;
+  /** Penjelasan tambahan saat hasil kosong (mis. limitasi platform). */
+  emptyHint?: string;
   scan: () => unknown[];
   Panel: ComponentType<PanelProps>;
 }
@@ -28,7 +30,15 @@ export interface FeatureEntry {
 export const FEATURES: FeatureEntry[] = [
   { id: 'images', tabLabel: '🖼️ Gambar', noun: 'gambar', scan: scanPageImages, Panel: ImagePanel },
   { id: 'fonts', tabLabel: '🔤 Font', noun: 'font', scan: scanPageFonts, Panel: FontPanel },
-  { id: 'audio', tabLabel: '🎵 Audio', noun: 'audio', scan: scanPageAudio, Panel: AudioPanel },
+  {
+    id: 'audio',
+    tabLabel: '🎵 Audio',
+    noun: 'audio',
+    emptyHint:
+      'Catatan: Spotify, YouTube, SoundCloud, dll. memutar via streaming terenkripsi/segmen tanpa file langsung — wajar jika kosong di sana.',
+    scan: scanPageAudio,
+    Panel: AudioPanel,
+  },
 ];
 
 /** Ambil definisi fitur. Melempar jika id tidak terdaftar. */

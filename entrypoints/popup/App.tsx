@@ -99,6 +99,10 @@ function App() {
         <p className="ad-empty">Tidak ada {feature.noun} terdeteksi di halaman ini.</p>
       )}
 
+      {status === 'done' && items.length === 0 && feature.emptyHint && (
+        <p className="ad-empty">{feature.emptyHint}</p>
+      )}
+
       {error && status !== 'scanning' && <p className="ad-error">{error}</p>}
 
       {items.length > 0 && <ActivePanel items={items} onError={setError} />}
