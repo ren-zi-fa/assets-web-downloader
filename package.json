@@ -4,6 +4,7 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
+  "packageManager": "pnpm@9.14.2",
   "scripts": {
     "dev": "wxt",
     "dev:brave": "CHROME_PATH=/usr/bin/brave-browser wxt",
