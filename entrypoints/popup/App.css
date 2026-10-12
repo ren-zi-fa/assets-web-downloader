@@ -12,9 +12,14 @@
   padding: 14px;
   text-align: left;
   overflow: hidden;
+  background-color: #2196f3;
+  color: #ffffff;
 }
 
-.ad-header h1 {
+.ad-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 1.2em;
   line-height: 1.2;
   margin: 0 0 2px;
@@ -23,15 +28,11 @@
 .ad-header p {
   margin: 0;
   font-size: 0.85em;
-  color: #888;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .ad-target {
   margin-top: 4px !important;
-}
-
-.ad-scan-btn {
-  flex: 1;
 }
 
 .ad-modes {
@@ -41,12 +42,15 @@
 
 .ad-mode {
   flex: 1;
-  opacity: 0.65;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #ffffff;
 }
 
 .ad-mode.active {
-  opacity: 1;
-  border-color: #646cff;
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #1565c0;
 }
 
 .ad-toolbar {
@@ -54,13 +58,22 @@
   gap: 8px;
 }
 
-.ad-refresh-btn {
-  white-space: nowrap;
+.ad-scan-btn {
+  flex: 1;
+  background: #ffffff;
+  color: #1565c0;
+  font-weight: 600;
 }
 
 .ad-scan-btn:disabled {
-  opacity: 0.6;
-  cursor: wait;
+  opacity: 0.75;
+}
+
+.ad-refresh-btn {
+  white-space: nowrap;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.7);
+  color: #ffffff;
 }
 
 .ad-count {
@@ -69,15 +82,26 @@
 }
 
 .ad-empty {
-  font-size: 0.9em;
-  color: #888;
+  margin: 0;
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .ad-error {
   font-size: 0.85em;
-  color: #ff6b6b;
-  background: rgba(255, 107, 107, 0.1);
-  border-radius: 6px;
+  color: #b71c1c;
+  background: #ffffff;
+  border-radius: 8px;
   padding: 8px 10px;
   margin: 0;
+}
+
+.ad-spin {
+  animation: ad-spin 1s linear infinite;
+}
+
+@keyframes ad-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

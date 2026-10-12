@@ -1,3 +1,4 @@
+import { ExternalLink } from 'lucide-react';
 import { AssetActions } from '../../components/AssetActions';
 import { openInNewTab } from '../../shared/browser';
 import { fileExtensionOf } from '../../shared/url';
@@ -43,7 +44,8 @@ export function FontPanel({ items, onError }: PanelProps) {
                 title={`Cari "${font.family}" di Google`}
                 onClick={() => searchOnGoogle(font.family)}
               >
-                {font.family} ↗
+                {font.family}
+                <ExternalLink size={12} />
               </button>
               <span className="ad-sub">
                 {font.detail || font.origin}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { ComponentType } from 'react';
+import { FolderDown, LoaderCircle, RefreshCw, Search } from 'lucide-react';
 import './components/AssetList.css';
 import './App.css';
 import { FEATURES, getFeature, type FeatureId, type PanelProps } from './features/registry';
@@ -8,11 +9,7 @@ import { toUserMessage } from './shared/errors';
 
 type Status = 'idle' | 'scanning' | 'done' | 'error';
 
-function scanButtonLabel(status: Status, noun: string): string {
-  if (status === 'scanning') return 'Memindai…';
-  if (status === 'idle') return `🔍 Analisis ${noun}`;
-  return '🔍 Analisis Ulang';
-}
+const ICON_SIZE = 15;
 
 function App() {
   const [featureId, setFeatureId] = useState<FeatureId>('images');
@@ -23,6 +20,7 @@ function App() {
 
   const feature = getFeature(featureId);
   const ActivePanel: ComponentType<PanelProps> = feature.Panel;
+  const scanning = status === 'scanning';
 
   useEffect(() => {
     getActiveTab()
@@ -55,7 +53,10 @@ function App() {
   return (
     <div className="ad-popup">
       <header className="ad-header">
-        <h1>Asset Downloader</h1>
+        <h1 className="ad-brand">
+          <FolderDown size={20} strokeWidth={2.25} />
+          Asset Downloader
+        </h1>
         <p>Pindai gambar, font & audio di tab aktif, lalu unduh satu per satu.</p>
         <p className="ad-target">
           Target: <strong>{tabHost || 'halaman khusus (tidak bisa dipindai)'}</strong>
@@ -63,20 +64,34 @@ function App() {
       </header>
 
       <div className="ad-modes">
-        {FEATURES.map((entry) => (
-          <button
-            key={entry.id}
-            className={entry.id === featureId ? 'ad-mode active' : 'ad-mode'}
-            onClick={() => switchFeature(entry.id)}
-          >
-            {entry.tabLabel}
-          </button>
-        ))}
+        {FEATURES.map((entry) => {
+          const TabIcon = entry.icon;
+          return (
+            <button
+              key={entry.id}
+              className={entry.id === featureId ? 'ad-mode active' : 'ad-mode'}
+              onClick={() => switchFeature(entry.id)}
+            >
+              <TabIcon size={ICON_SIZE} />
+              {entry.label}
+            </button>
+          );
+        })}
       </div>
 
       <div className="ad-toolbar">
-        <button className="ad-scan-btn" onClick={analyze} disabled={status === 'scanning'}>
-          {scanButtonLabel(status, feature.noun)}
+        <button className="ad-scan-btn" onClick={analyze} disabled={scanning}>
+          {scanning ? (
+            <>
+              <LoaderCircle size={ICON_SIZE} className="ad-spin" />
+              Memindai…
+            </>
+          ) : (
+            <>
+              <Search size={ICON_SIZE} />
+              {status === 'idle' ? `Analisis ${feature.noun}` : 'Analisis Ulang'}
+            </>
+          )}
         </button>
         {(status === 'done' || status === 'error') && (
           <button
@@ -84,7 +99,8 @@ function App() {
             onClick={analyze}
             title="Pindai ulang halaman ini"
           >
-            ↻ Refresh
+            <RefreshCw size={ICON_SIZE} />
+            Refresh
           </button>
         )}
       </div>

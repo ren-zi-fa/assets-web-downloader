@@ -12,9 +12,11 @@
   display: flex;
   gap: 10px;
   align-items: flex-start;
-  border: 1px solid rgba(128, 128, 128, 0.3);
-  border-radius: 8px;
+  background: #ffffff;
+  color: #1f2937;
+  border-radius: 10px;
   padding: 8px;
+  box-shadow: 0 1px 4px rgba(13, 71, 161, 0.25);
 }
 
 .ad-thumb {
@@ -23,7 +25,7 @@
   object-fit: cover;
   border-radius: 6px;
   flex-shrink: 0;
-  background: rgba(128, 128, 128, 0.2);
+  background: #dbe7f3;
 }
 
 .ad-meta {
@@ -37,6 +39,7 @@
 .ad-name {
   font-size: 0.85em;
   font-weight: 600;
+  color: #1f2937;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -44,7 +47,7 @@
 
 .ad-sub {
   font-size: 0.75em;
-  color: #888;
+  color: #5b6b7f;
 }
 
 .ad-actions {
@@ -56,4 +59,10 @@
 .ad-actions button {
   padding: 0.3em 0.7em;
   font-size: 0.8em;
+  background: #e8f1fb;
+  color: #1565c0;
+}
+
+.ad-actions button:hover {
+  border-color: #1565c0;
 }
