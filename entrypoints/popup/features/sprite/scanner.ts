@@ -33,6 +33,10 @@ export interface ScannedSprite {
  */
 export function scanPageSprites(): ScanResult<ScannedSprite> {
   const IMAGE_EXTS = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'avif', 'bmp', 'ico'];
+  /** Batas hasil yang dikirim ke popup agar halaman tetap ringan. */
+  const MAX_RESULTS = 200;
+  /** Data URL di atas panjang ini dilewati (hasil toDataURL bisa sangat besar). */
+  const DATA_URL_MAX = 2048;
 
   const seen = new Map<string, ScannedSprite>();
 
@@ -66,9 +70,22 @@ export function scanPageSprites(): ScanResult<ScannedSprite> {
     return IMAGE_EXTS.includes(extOf(url));
   };
 
-  const add = (url: string, kind: ScannedSprite['kind'], width: number, height: number, detail: string): void => {
+  const add = (
+    url: string,
+    kind: ScannedSprite['kind'],
+    width: number,
+    height: number,
+    detail: string,
+  ): void => {
     if (!url || seen.has(url)) return;
-    seen.set(url, { url, kind, width: width || 0, height: height || 0, detail, downloadable: true });
+    seen.set(url, {
+      url,
+      kind,
+      width: width || 0,
+      height: height || 0,
+      detail,
+      downloadable: true,
+    });
   };
 
   /** Snapshot satu <canvas>. `index` hanya untuk kunci baris tainted. */
@@ -114,7 +131,7 @@ export function scanPageSprites(): ScanResult<ScannedSprite> {
         if (!url) continue;
         if (!looksImage(url)) continue;
         // Lewati hasil toDataURL (panjang) dan blob internal.
-        if (url.startsWith('data:') && url.length > 2048) continue;
+        if (url.startsWith('data:') && url.length > DATA_URL_MAX) continue;
         seen.set(url, {
           url,
           kind: 'sheet',
@@ -155,7 +172,7 @@ export function scanPageSprites(): ScanResult<ScannedSprite> {
   collectNetworkImages();
 
   const all = [...seen.values()];
-  return { items: all.slice(0, 200), total: all.length };
+  return { items: all.slice(0, MAX_RESULTS), total: all.length };
 }
 
 /**
@@ -183,7 +200,8 @@ export function scanSpriteSources(): ScanResult<ScannedSprite> {
     __assetSpriteSeen?: Set<string>;
     __assetSpriteHooked?: boolean;
   };
-  const seen: Set<string> = scope.__assetSpriteSeen ?? (scope.__assetSpriteSeen = new Set<string>());
+  const seen: Set<string> =
+    scope.__assetSpriteSeen ?? (scope.__assetSpriteSeen = new Set<string>());
 
   const toAbs = (raw: string): string | null => {
     try {

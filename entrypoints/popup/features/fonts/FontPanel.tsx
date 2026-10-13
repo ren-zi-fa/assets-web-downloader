@@ -1,6 +1,7 @@
 import { ExternalLink } from 'lucide-react';
 import { AssetActions } from '../../components/AssetActions';
 import { openInNewTab } from '../../shared/browser';
+import { messageOf } from '../../shared/errors';
 import { fileExtensionOf } from '../../shared/url';
 import type { PanelProps } from '../registry';
 import type { ScannedFont } from './scanner';
@@ -21,7 +22,7 @@ export function FontPanel({ items, onError }: PanelProps) {
     try {
       await openInNewTab(buildFontSearchUrl(family));
     } catch (error) {
-      onError(error instanceof Error ? error.message : String(error));
+      onError(messageOf(error));
     }
   };
 

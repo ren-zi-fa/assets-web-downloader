@@ -126,10 +126,10 @@ no build tools required.
    page and pick the latest version.
 2. Under **Assets**, download the archive for your browser:
 
-   | Browser | Download this file |
-   |---|---|
-   | Chrome / Edge / Brave | `asset-downloader-<version>-chrome.zip` |
-   | Firefox | `asset-downloader-<version>-firefox.zip` |
+   | Browser               | Download this file                       |
+   | --------------------- | ---------------------------------------- |
+   | Chrome / Edge / Brave | `asset-downloader-<version>-chrome.zip`  |
+   | Firefox               | `asset-downloader-<version>-firefox.zip` |
 
 3. **Unzip** the archive. You will get a folder containing `manifest.json`,
    `background.js`, and `popup.html`.
@@ -179,13 +179,13 @@ install it via `about:addons` → gear icon → **Install Add-on From File…**.
 
 ## Troubleshooting
 
-| Problem | Fix |
-|---|---|
-| "No active tab to scan." | Open a normal `http(s)` page and click the extension icon again. |
-| Popup says the page cannot be scanned | Browser-internal pages cannot be injected. Use a regular website. |
-| Downloads do nothing | Check that the site's assets are reachable and that the extension still has the **Downloads** permission. |
-| Old icon or stale build | Reload the extension after replacing the files (`chrome://extensions` or `about:debugging`). |
-| Audio not found on a music site | Segmented/encrypted streams (Spotify, YouTube, SoundCloud) expose no single file; an empty result is expected there. |
+| Problem                                   | Fix                                                                                                                                                                      |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| "No active tab to scan."                  | Open a normal `http(s)` page and click the extension icon again.                                                                                                         |
+| Popup says the page cannot be scanned     | Browser-internal pages cannot be injected. Use a regular website.                                                                                                        |
+| Downloads do nothing                      | Check that the site's assets are reachable and that the extension still has the **Downloads** permission.                                                                |
+| Old icon or stale build                   | Reload the extension after replacing the files (`chrome://extensions` or `about:debugging`).                                                                             |
+| Audio not found on a music site           | Segmented/encrypted streams (Spotify, YouTube, SoundCloud) expose no single file; an empty result is expected there.                                                     |
 | Sprite tab finds nothing on a canvas page | Some canvases block snapshots when they hold cross-origin images (no CORS). Play the animation first, then **Analyze Again**, so sheet files drawn from JS get recorded. |
 
 ## Building from source
@@ -212,5 +212,3 @@ npm run zip:firefox   # Firefox package -> .output/asset-downloader-<version>-fi
 ## License
 
 Released under the [MIT License](LICENSE).
-
-

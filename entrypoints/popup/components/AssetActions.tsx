@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Check, Copy, Download } from 'lucide-react';
 import { copyText, downloadUrl } from '../shared/browser';
+import { messageOf } from '../shared/errors';
 
 interface AssetActionsProps {
   url: string;
@@ -39,7 +40,7 @@ export function AssetActions({
     try {
       await downloadUrl(url);
     } catch (error) {
-      onError(error instanceof Error ? error.message : String(error));
+      onError(messageOf(error));
     }
   };
 

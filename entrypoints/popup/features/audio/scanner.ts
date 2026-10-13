@@ -25,9 +25,27 @@ export interface ScannedAudio {
  * ditangani oleh `scanAudioNetwork` (MAIN world).
  */
 export function scanPageAudio(): ScanResult<ScannedAudio> {
-  const AUDIO_EXTS = ['mp3', 'wav', 'ogg', 'oga', 'm4a', 'aac', 'flac', 'opus', 'weba', 'mid', 'midi'];
+  const AUDIO_EXTS = [
+    'mp3',
+    'wav',
+    'ogg',
+    'oga',
+    'm4a',
+    'aac',
+    'flac',
+    'opus',
+    'weba',
+    'mid',
+    'midi',
+  ];
   /** Playlist streaming (HLS/DASH): bukan file musik, tak bisa diunduh langsung. */
   const PLAYLIST_EXTS = ['m3u8', 'mpd', 'm3u', 'pls'];
+  /** Batas hasil yang dikirim ke popup agar halaman tetap ringan. */
+  const MAX_RESULTS = 200;
+  /** Panjang maksimum judul yang disimpan. */
+  const TITLE_MAX = 120;
+  /** Panjang maksimum teks link yang disimpan sebagai judul. */
+  const LINK_TEXT_MAX = 80;
 
   const seen = new Map<string, ScannedAudio>();
 
@@ -53,7 +71,7 @@ export function scanPageAudio(): ScanResult<ScannedAudio> {
   const extOf = (url: string): string => {
     try {
       const path = new URL(url).pathname.split('/').pop() || '';
-      const ext = ((path.split('.').pop() || '').toLowerCase().split('?')[0] ?? '');
+      const ext = (path.split('.').pop() || '').toLowerCase().split('?')[0] ?? '';
       return AUDIO_EXTS.includes(ext) ? ext : '';
     } catch {
       return '';
@@ -68,14 +86,19 @@ export function scanPageAudio(): ScanResult<ScannedAudio> {
   const playlistExtOf = (url: string): string => {
     try {
       const path = new URL(url).pathname.split('/').pop() || '';
-      const ext = ((path.split('.').pop() || '').toLowerCase().split('?')[0] ?? '');
+      const ext = (path.split('.').pop() || '').toLowerCase().split('?')[0] ?? '';
       return PLAYLIST_EXTS.includes(ext) ? ext : '';
     } catch {
       return '';
     }
   };
 
-  const add = (raw: string | null, title: string, kind: ScannedAudio['kind'], base: string): void => {
+  const add = (
+    raw: string | null,
+    title: string,
+    kind: ScannedAudio['kind'],
+    base: string,
+  ): void => {
     if (!raw) return;
     const parsed = toAbs(raw.trim(), base);
     if (!parsed || seen.has(parsed.url)) return;
@@ -93,7 +116,7 @@ export function scanPageAudio(): ScanResult<ScannedAudio> {
     if (playlistExt) {
       seen.set(parsed.url, {
         url: parsed.url,
-        title: title.slice(0, 120),
+        title: title.slice(0, TITLE_MAX),
         ext: playlistExt,
         kind: 'stream',
         playable: false,
@@ -138,7 +161,7 @@ export function scanPageAudio(): ScanResult<ScannedAudio> {
   const collectAudioLinks = (doc: Document, base: string): void => {
     doc.querySelectorAll('a[href]').forEach((node) => {
       const href = node.getAttribute('href');
-      const text = (node.textContent || '').trim().slice(0, 80);
+      const text = (node.textContent || '').trim().slice(0, LINK_TEXT_MAX);
       add(href, text, 'link', base);
     });
   };
@@ -146,7 +169,9 @@ export function scanPageAudio(): ScanResult<ScannedAudio> {
   /** Meta og:audio / twitter:player:stream di <head>. */
   const collectAudioMeta = (doc: Document, base: string): void => {
     doc
-      .querySelectorAll('meta[property="og:audio"], meta[property="og:audio:url"], meta[name="twitter:player:stream"]')
+      .querySelectorAll(
+        'meta[property="og:audio"], meta[property="og:audio:url"], meta[name="twitter:player:stream"]',
+      )
       .forEach((node) => {
         add(node.getAttribute('content'), '', 'link', base);
       });
@@ -178,7 +203,7 @@ export function scanPageAudio(): ScanResult<ScannedAudio> {
   walk(document);
 
   const all = [...seen.values()];
-  return { items: all.slice(0, 200), total: all.length };
+  return { items: all.slice(0, MAX_RESULTS), total: all.length };
 }
 
 /**
@@ -196,7 +221,19 @@ export function scanPageAudio(): ScanResult<ScannedAudio> {
  *    — menangkap audio yang dimuat setelahnya.
  */
 export function scanAudioNetwork(): ScanResult<ScannedAudio> {
-  const AUDIO_EXTS = ['mp3', 'wav', 'ogg', 'oga', 'm4a', 'aac', 'flac', 'opus', 'weba', 'mid', 'midi'];
+  const AUDIO_EXTS = [
+    'mp3',
+    'wav',
+    'ogg',
+    'oga',
+    'm4a',
+    'aac',
+    'flac',
+    'opus',
+    'weba',
+    'mid',
+    'midi',
+  ];
 
   const scope = globalThis as typeof globalThis & {
     __assetAudioSeen?: Set<string>;

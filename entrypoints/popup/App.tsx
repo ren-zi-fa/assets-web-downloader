@@ -33,7 +33,9 @@ function App() {
   useEffect(() => {
     getActiveTab()
       .then((tab) => setTabHost(tab.host))
-      .catch(() => {});
+      .catch(() => {
+        // Tab aktif bisa tak terbaca (mis. halaman internal); biarkan target kosong.
+      });
   }, []);
 
   const switchFeature = (id: FeatureId) => {
@@ -118,11 +120,7 @@ function App() {
           )}
         </button>
         {(status === 'done' || status === 'error') && (
-          <button
-            className="ad-refresh-btn"
-            onClick={analyze}
-            title="Rescan this page"
-          >
+          <button className="ad-refresh-btn" onClick={analyze} title="Rescan this page">
             <RefreshCw size={ICON_SIZE} />
             Refresh
           </button>
@@ -145,7 +143,8 @@ function App() {
 
       {status === 'done' && items.length > 0 && items.length < total && (
         <p className="ad-note">
-          Scanned up to the top {items.length} results; the rest are not sent to keep the page light.
+          Scanned up to the top {items.length} results; the rest are not sent to keep the page
+          light.
         </p>
       )}
 

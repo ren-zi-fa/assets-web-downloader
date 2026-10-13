@@ -27,6 +27,12 @@ jobs:
       - name: Typecheck
         run: pnpm compile
 
+      - name: Test
+        run: pnpm test
+
+      - name: Format check
+        run: pnpm format:check
+
       - name: Build Chrome (zip)
         run: pnpm zip
 

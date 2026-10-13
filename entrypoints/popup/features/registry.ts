@@ -39,7 +39,14 @@ export interface FeatureEntry {
  * di `features/` + satu baris di sini. App tidak perlu diubah.
  */
 export const FEATURES: FeatureEntry[] = [
-  { id: 'images', label: 'Images', icon: Images, noun: 'images', scan: scanPageImages, Panel: ImagePanel },
+  {
+    id: 'images',
+    label: 'Images',
+    icon: Images,
+    noun: 'images',
+    scan: scanPageImages,
+    Panel: ImagePanel,
+  },
   {
     id: 'sprite',
     label: 'Sprite',

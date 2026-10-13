@@ -1,3 +1,4 @@
 export default defineBackground(() => {
-  console.log('Hello background!', { id: browser.runtime.id });
+  // Service worker minimal tanpa tugas khusus. Dipertahankan karena WXT
+  // butuh entrypoint background meski seluruh logika ada di popup.
 });

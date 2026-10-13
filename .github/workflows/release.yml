@@ -37,7 +37,7 @@ jobs:
 
       - name: Build Firefox (zip)
         run: pnpm zip:firefox
-        
+
       - name: Sign Firefox package (AMO, optional)
         if: ${{ env.WEB_EXT_API_KEY != '' }}
         run: >

@@ -48,7 +48,10 @@ export function SpritePanel({ items, onError }: PanelProps) {
                 onError={() => markBroken(key)}
               />
             ) : (
-              <div className="ad-thumb ad-sprite-thumb ad-sprite-broken" title="Preview not available">
+              <div
+                className="ad-thumb ad-sprite-thumb ad-sprite-broken"
+                title="Preview not available"
+              >
                 {isSheet ? <ImageIcon size={20} /> : <Layers size={20} />}
               </div>
             )}

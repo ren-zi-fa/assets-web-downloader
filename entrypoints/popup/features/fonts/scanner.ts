@@ -18,6 +18,11 @@ export interface ScannedFont {
  * Iframe same-origin ditelusuri rekursif; cross-origin dilewati aman.
  */
 export function scanPageFonts(): ScanResult<ScannedFont> {
+  /** Batas hasil yang dikirim ke popup agar halaman tetap ringan. */
+  const MAX_RESULTS = 200;
+  /** Batas jumlah elemen yang diperiksa untuk font yang benar-benar dipakai. */
+  const USED_FONT_ELEM_LIMIT = 2000;
+
   const map = new Map<string, ScannedFont>();
 
   const baseOf = (doc: Document): string => {
@@ -71,12 +76,11 @@ export function scanPageFonts(): ScanResult<ScannedFont> {
   };
 
   // Aturan @font-face (stylesheet cross-origin dilewati aman).
-  // type 5 === CSSRule.FONT_FACE_RULE.
   const collectFontFaces = (doc: Document, base: string): void => {
     const walkRules = (rules: CSSRuleList | null | undefined): void => {
       if (!rules) return;
       for (const r of Array.from(rules)) {
-        if (r.type === 5) {
+        if (r.type === CSSRule.FONT_FACE_RULE) {
           const style = (r as CSSFontFaceRule).style;
           const entry = ensure(style.getPropertyValue('font-family'), 'font-face');
           if (!entry) continue;
@@ -114,7 +118,7 @@ export function scanPageFonts(): ScanResult<ScannedFont> {
   // Font yang benar-benar dipakai di halaman (termasuk font sistem).
   const collectUsedFonts = (doc: Document): void => {
     const all = doc.querySelectorAll('*');
-    const limit = Math.min(all.length, 2000);
+    const limit = Math.min(all.length, USED_FONT_ELEM_LIMIT);
     const used = new Map<string, number>();
     for (let i = 0; i < limit; i++) {
       const ff = getComputedStyle(all[i] as Element).fontFamily;
@@ -155,5 +159,5 @@ export function scanPageFonts(): ScanResult<ScannedFont> {
   const all = [...map.values()].sort(
     (a, b) => b.urls.length - a.urls.length || a.family.localeCompare(b.family),
   );
-  return { items: all.slice(0, 200), total: all.length };
+  return { items: all.slice(0, MAX_RESULTS), total: all.length };
 }

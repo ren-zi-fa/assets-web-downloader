@@ -21,6 +21,13 @@ export interface ScannedImage {
  * rekursif; iframe cross-origin dilewati aman.
  */
 export function scanPageImages(): ScanResult<ScannedImage> {
+  /** Batas hasil yang dikirim ke popup agar halaman tetap ringan. */
+  const MAX_RESULTS = 500;
+  /** Panjang maksimum teks alt yang disimpan. */
+  const ALT_MAX = 120;
+  /** Batas jumlah elemen yang diperiksa untuk background-image. */
+  const BG_ELEM_LIMIT = 5000;
+
   const seen = new Map<string, ScannedImage>();
 
   type AddImage = (
@@ -86,7 +93,13 @@ export function scanPageImages(): ScanResult<ScannedImage> {
     if (!absolute) return;
     const url = upgradeCdnSize(absolute);
     if (seen.has(url)) return;
-    seen.set(url, { url, alt: (alt || '').slice(0, 120), width: w || 0, height: h || 0, source });
+    seen.set(url, {
+      url,
+      alt: (alt || '').slice(0, ALT_MAX),
+      width: w || 0,
+      height: h || 0,
+      source,
+    });
   };
 
   // "a.jpg 320w, b.jpg 640w" -> URL dengan deskriptor terbesar.
@@ -171,7 +184,7 @@ export function scanPageImages(): ScanResult<ScannedImage> {
       }
     };
     const all = doc.querySelectorAll('*');
-    const limit = Math.min(all.length, 5000);
+    const limit = Math.min(all.length, BG_ELEM_LIMIT);
     for (let i = 0; i < limit; i++) {
       const el = all[i] as HTMLElement;
       if (el.style && el.style.backgroundImage && el.style.backgroundImage !== 'none') {
@@ -185,7 +198,9 @@ export function scanPageImages(): ScanResult<ScannedImage> {
   /** Favicon, apple-touch-icon, dan meta og:image / twitter:image. */
   const collectHeadImages = (doc: Document, base: string): void => {
     doc
-      .querySelectorAll('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"], link[rel="image_src"]')
+      .querySelectorAll(
+        'link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"], link[rel="image_src"]',
+      )
       .forEach((node) => {
         add(node.getAttribute('href'), 'favicon', 0, 0, 'icon', base);
       });
@@ -223,5 +238,5 @@ export function scanPageImages(): ScanResult<ScannedImage> {
   walk(document);
 
   const all = [...seen.values()];
-  return { items: all.slice(0, 500), total: all.length };
+  return { items: all.slice(0, MAX_RESULTS), total: all.length };
 }

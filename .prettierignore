@@ -1,0 +1,7 @@
+.output
+.wxt
+node_modules
+dist
+pnpm-lock.yaml
+# Skill yang di-vendor dari sumber eksternal, bukan kode project.
+.agents
