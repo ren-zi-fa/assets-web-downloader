@@ -4,7 +4,7 @@
   <img src="public/icon/128.png" alt="Asset Downloader logo" width="112" height="112">
 </p>
 
-<h3 align="center">Scan and download images, fonts, and audio from any web page.</h3>
+<h3 align="center">Scan and download images, sprites, fonts, and audio from any web page.</h3>
 
 <p align="center">
   <a href="https://github.com/ren-zi-fa/assets-web-downloader/releases/latest"><img src="https://img.shields.io/github/v/release/ren-zi-fa/assets-web-downloader?label=release&color=1bb9ee" alt="Latest release"></a>
@@ -16,11 +16,15 @@
 </p>
 
 Asset Downloader is a browser extension that scans the page you are viewing and
-lets you **download images, fonts, and audio** one by one — no browser DevTools
-required. Built with [WXT](https://wxt.dev) + React, published as **Manifest V3**
+lets you **download images, sprites, fonts, and audio** one by one — no browser
+DevTools required. Built with [WXT](https://wxt.dev) + React, published as **Manifest V3**
 for Chromium browsers and **Manifest V2** for Firefox.
 
 ![Asset Downloader popup](images/tampilan.png)
+
+> New in this build: a **Sprite** tab that pulls the sprite sheets out of
+> canvas-animated pages — see [What is a sprite?](#what-is-a-sprite) and the
+> [Sprite tab screenshot](images/tampilan-2.png).
 
 ## Features
 
@@ -29,16 +33,67 @@ for Chromium browsers and **Manifest V2** for Firefox.
   Pexels CDN URLs are automatically upgraded to a larger size before download.
 - **Fonts** — `@font-face` files (downloadable), Google Fonts links, and fonts
   actually used by the page. Click a font name to search for it on Google.
+- **Sprites** — the sprite sheets behind animated `<canvas>` graphics
+  ([what is a sprite?](#what-is-a-sprite)). Reports the sprite sheet files the
+  page loads, plus a PNG snapshot of each `<canvas>`. Textures drawn via 2D or
+  WebGL are captured from the page's own JS, so sheets that never appear as
+  `<img>` are still found.
 - **Audio** — `<audio>`, `<video>`, direct audio links, and `og:audio` metadata.
   Also detects sounds played through the **Web Audio API** (e.g. howler.js) by
   inspecting network traffic in the page's main world.
 - **Download or copy** the URL of any detected asset.
 - Scans **same-origin iframes** recursively; cross-origin iframes are skipped safely.
 
+## What is a sprite?
+
+<p align="center">
+  <img src="images/example-sprite.png" alt="The Dog House slot game, whose symbols are assembled from sprite sheets" width="640">
+</p>
+
+A **sprite** is a single image file that packs many pictures together — usually
+every frame of an animation, or every symbol a game needs. Think of it as a
+sticker sheet: one file holds the dog, the letter `Q`, the bone, and the paw,
+instead of hundreds of separate files.
+
+A sprite **sheet** is that one big file. During playback, the page shows just a
+small window onto it — like sliding a magnifying glass over the sticker sheet —
+and moves the window a little for each frame. That sliding is what makes the
+picture look animated.
+
+**Why sites use them**
+
+- **One request, not hundreds** — the browser downloads a single file, so pages
+  load much faster.
+- **No flicker** — every frame is already in memory, so animation stays smooth.
+- **Smaller total size** — packing shapes together compresses better.
+- **Control** — the page can play, pause, slow down, or reverse the animation at
+  will, unlike a plain GIF.
+
+**Where you meet them**
+
+Games, slot machines, mascots and walk cycles, loading spinners, and animated
+icons. The [example page above](images/example-sprite.png) is a slot game: the
+spinning symbols are all cut from sprite sheets.
+
+**Why that makes them hard to download**
+
+A sprite sheet is often fetched by JavaScript and drawn onto a `<canvas>`, so it
+never appears as an `<img>` tag. In DevTools it hides behind a wall of network
+requests, and right-clicking the canvas gives you a flat picture, not the real
+asset. The **Sprite** tab solves exactly this — see below.
+
+<p align="center">
+  <img src="images/tampilan-2.png" alt="The Sprite tab listing sprite sheets found on a slot game page" width="300">
+</p>
+
+The screenshot above shows the **Sprite** tab on that same slot game. Each row is
+a real sprite sheet the page loaded, previewed with a checkerboard so you can see
+the transparent gaps, together with its file name and a **Download sheet** button.
+
 ## How it works
 
 1. Open a regular website and click the extension icon.
-2. Pick a tab — **Images**, **Font**, or **Audio** — and press **Analyze**.
+2. Pick a tab — **Images**, **Sprite**, **Font**, or **Audio** — and press **Analyze**.
 3. For every result, use **Copy URL** or **Download**.
 
 The scan runs inside the page you are on, then reports what it found. It never
@@ -50,6 +105,8 @@ uploads your data anywhere: there is no backend, no analytics, and no account.
   scroll-triggered loading. This extension collects them in one click.
 - **Web Audio aware** — sounds played purely through JavaScript (e.g. `howler.js`)
   show up too, not just HTML `<audio>` tags.
+- **Canvas aware** — sprite sheets and canvas textures that never touch the DOM
+  are still found, by watching how the page draws them.
 - **Smarter picks** — reads `srcset`/`<picture>` and upgrades Pexels CDN URLs to a
   larger size, so you download the best version instead of a thumbnail.
 - **Lightweight popup** — results render in pages of 40 with a **Load more** button,
@@ -104,7 +161,7 @@ install it via `about:addons` → gear icon → **Install Add-on From File…**.
 
 1. Open any normal website (e.g. a gallery or an image-heavy page).
 2. Click the Asset Downloader icon in the toolbar.
-3. Pick a tab — **Images**, **Font**, or **Audio**.
+3. Pick a tab — **Images**, **Sprite**, **Font**, or **Audio**.
 4. Click **Analyze** (the button label follows the selected tab).
 5. For each result, use **Copy URL** or **Download**.
 
@@ -129,6 +186,7 @@ install it via `about:addons` → gear icon → **Install Add-on From File…**.
 | Downloads do nothing | Check that the site's assets are reachable and that the extension still has the **Downloads** permission. |
 | Old icon or stale build | Reload the extension after replacing the files (`chrome://extensions` or `about:debugging`). |
 | Audio not found on a music site | Segmented/encrypted streams (Spotify, YouTube, SoundCloud) expose no single file; an empty result is expected there. |
+| Sprite tab finds nothing on a canvas page | Some canvases block snapshots when they hold cross-origin images (no CORS). Play the animation first, then **Analyze Again**, so sheet files drawn from JS get recorded. |
 
 ## Building from source
 
