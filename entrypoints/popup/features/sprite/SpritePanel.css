@@ -1,0 +1,21 @@
+.ad-item-sprite .ad-sprite-thumb {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  /* Sprite sheet latar transparan: beri papan catur agar terlihat. */
+  background-color: #dbe7f3;
+  background-image:
+    linear-gradient(45deg, #c6d8ea 25%, transparent 25%),
+    linear-gradient(-45deg, #c6d8ea 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #c6d8ea 75%),
+    linear-gradient(-45deg, transparent 75%, #c6d8ea 75%);
+  background-size: 12px 12px;
+  background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+}
+
+.ad-sprite-broken {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1565c0;
+}

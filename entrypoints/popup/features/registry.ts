@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import { AudioLines, Images, Type, type LucideIcon } from 'lucide-react';
+import { AudioLines, Images, Shapes, Type, type LucideIcon } from 'lucide-react';
 import type { ScanResult } from '../shared/scan';
 import { AudioPanel } from './audio/AudioPanel';
 import { scanAudioNetwork, scanPageAudio } from './audio/scanner';
@@ -7,8 +7,10 @@ import { FontPanel } from './fonts/FontPanel';
 import { scanPageFonts } from './fonts/scanner';
 import { ImagePanel } from './images/ImagePanel';
 import { scanPageImages } from './images/scanner';
+import { scanPageSprites, scanSpriteSources } from './sprite/scanner';
+import { SpritePanel } from './sprite/SpritePanel';
 
-export type FeatureId = 'images' | 'fonts' | 'audio';
+export type FeatureId = 'images' | 'sprite' | 'fonts' | 'audio';
 
 export interface PanelProps {
   items: unknown[];
@@ -38,6 +40,17 @@ export interface FeatureEntry {
  */
 export const FEATURES: FeatureEntry[] = [
   { id: 'images', label: 'Images', icon: Images, noun: 'images', scan: scanPageImages, Panel: ImagePanel },
+  {
+    id: 'sprite',
+    label: 'Sprite',
+    icon: Shapes,
+    noun: 'sprites',
+    emptyHint:
+      'Note: canvas snapshots cover the current frame only. Sprite sheets drawn from JS are collected while the page runs, so play the animation and Analyze again if a sheet is missing.',
+    scan: scanPageSprites,
+    scanNetwork: scanSpriteSources,
+    Panel: SpritePanel,
+  },
   { id: 'fonts', label: 'Font', icon: Type, noun: 'fonts', scan: scanPageFonts, Panel: FontPanel },
   {
     id: 'audio',
