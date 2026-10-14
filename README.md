@@ -20,7 +20,7 @@ lets you **download images, sprites, fonts, and audio** one by one — no browse
 DevTools required. Built with [WXT](https://wxt.dev) + React, published as **Manifest V3**
 for Chromium browsers and **Manifest V2** for Firefox.
 
-![Asset Downloader popup](images/tampilan.png)
+![Asset Downloader popup](images/tampilan-1.png)
 
 > New in this build: a **Sprite** tab that pulls the sprite sheets out of
 > canvas-animated pages — see [What is a sprite?](#what-is-a-sprite) and the
