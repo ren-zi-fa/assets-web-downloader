@@ -23,7 +23,7 @@ for Chromium browsers and **Manifest V2** for Firefox.
 ![Asset Downloader popup](images/tampilan-1.png)
 
 Full user docs — features, installation guide, and FAQ — are on the landing page at
-**[asset-downloader.github.io](https://asset-downloader.github.io)**
+**[ren-zi-fa.github.io/assets-web-downloader](https://ren-zi-fa.github.io/assets-web-downloader/)**
 (available in Indonesian and English).
 
 ## Install
@@ -33,7 +33,7 @@ No build tools required. Grab the ready-made package from the
 unzip it, and load it as an unpacked extension (`chrome://extensions` with
 Developer mode on, or `about:debugging` on Firefox). Step-by-step instructions
 with screenshots are on the landing page at
-[asset-downloader.github.io](https://asset-downloader.github.io).
+[ren-zi-fa.github.io/assets-web-downloader](https://ren-zi-fa.github.io/assets-web-downloader/).
 
 ## Building from source
 
