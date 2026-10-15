@@ -20,7 +20,11 @@ export function Hero() {
     <section id="atas" className="mx-auto w-full max-w-6xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20">
       <div className="grid items-center gap-10 lg:grid-cols-2">
         <div className="text-left">
-          <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs text-muted-foreground">
+          <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground">
+            <img src="icon-128.png" alt="" className="size-5 rounded-md" />
+            Asset Downloader
+          </p>
+          <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs text-muted-foreground">
             <HugeiconsIcon icon={ShieldCheckIcon} strokeWidth={2} className="size-3.5 text-brand" />
             {hero.badge}
           </p>
