@@ -3,7 +3,16 @@ name: CI
 on:
   push:
     branches: ['**']
+    # Lewati run kalau yang berubah hanya file non-kode (dokumentasi, gambar, lisensi).
+    paths-ignore: &non-code-paths
+      - '**.md'
+      - 'docs/**'
+      - 'images/**'
+      - 'LICENSE'
+      # Skill vendored dari sumber eksternal, bukan kode project.
+      - '.agents/**'
   pull_request:
+    paths-ignore: *non-code-paths
 
 jobs:
   build:

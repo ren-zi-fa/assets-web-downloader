@@ -1,7 +1,7 @@
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Download01Icon, Github01Icon } from '@hugeicons/core-free-icons';
 import { buttonVariants } from './ui/button';
-import { RELEASES_URL, REPO_URL, type Lang } from '../i18n/dictionaries';
+import { REPO_URL, type Lang } from '../i18n/dictionaries';
 import { useLanguage } from '../i18n/useLanguage';
 import { cn } from '../lib/utils';
 
@@ -69,12 +69,7 @@ export function Navbar() {
             <HugeiconsIcon icon={Github01Icon} strokeWidth={2} />
             GitHub
           </a>
-          <a
-            href={RELEASES_URL}
-            target="_blank"
-            rel="noreferrer"
-            className={buttonVariants({ size: 'sm' })}
-          >
+          <a href="#instalasi" className={buttonVariants({ size: 'sm' })}>
             <HugeiconsIcon icon={Download01Icon} strokeWidth={2} />
             {t.navDownload}
           </a>

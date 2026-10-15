@@ -8,7 +8,6 @@ import {
 } from '@hugeicons/core-free-icons';
 import { buttonVariants } from './ui/button';
 import { Lightbox } from './Lightbox';
-import { RELEASES_URL } from '../i18n/dictionaries';
 import { useLanguage } from '../i18n/useLanguage';
 
 export function Hero() {
@@ -35,12 +34,7 @@ export function Hero() {
             {hero.description}
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <a
-              href={RELEASES_URL}
-              target="_blank"
-              rel="noreferrer"
-              className={buttonVariants({ size: 'lg' })}
-            >
+            <a href="#instalasi" className={buttonVariants({ size: 'lg' })}>
               {hero.primaryCta}
               <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} />
             </a>

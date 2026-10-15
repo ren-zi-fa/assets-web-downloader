@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -10,7 +13,6 @@ permissions:
   pages: write
   id-token: write
 
-# Hanya satu deploy berjalan pada satu waktu; run baru membatalkan yang lama.
 concurrency:
   group: pages
   cancel-in-progress: true
