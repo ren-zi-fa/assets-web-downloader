@@ -11,7 +11,14 @@ export default defineConfig({
       default_title: 'Asset Downloader',
     },
     ...(browser === 'firefox'
-      ? { browser_specific_settings: { gecko: { id: 'asset-downloader@renzi.dev' } } }
+      ? {
+          browser_specific_settings: {
+            gecko: {
+              id: 'asset-downloader@renzi.dev',
+              data_collection_permissions: { required: ['none'] },
+            },
+          },
+        }
       : {}),
   }),
 });
