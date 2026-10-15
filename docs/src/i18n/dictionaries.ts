@@ -183,7 +183,8 @@ export const id: Dictionary = {
   install: {
     eyebrow: 'Instalasi',
     title: 'Install dalam 2 menit',
-    subtitle: 'Chrome lewat Chrome Web Store, Firefox lewat Releases. Tidak perlu build tool apa pun.',
+    subtitle:
+      'Chrome lewat Chrome Web Store, Firefox lewat Releases. Tidak perlu build tool apa pun.',
     tabs: [
       {
         id: 'chrome',
@@ -378,8 +379,7 @@ export const en: Dictionary = {
   install: {
     eyebrow: 'Install',
     title: 'Install in 2 minutes',
-    subtitle:
-      'Chrome via the Chrome Web Store, Firefox via Releases. No build tools needed.',
+    subtitle: 'Chrome via the Chrome Web Store, Firefox via Releases. No build tools needed.',
     tabs: [
       {
         id: 'chrome',
