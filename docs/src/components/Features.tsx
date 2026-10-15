@@ -1,13 +1,13 @@
-import { HugeiconsIcon } from "@hugeicons/react";
+import { HugeiconsIcon } from '@hugeicons/react';
 import {
   CheckmarkCircle02Icon,
   Image01Icon,
   Layers01Icon,
   MusicNote01Icon,
   TextFontIcon,
-} from "@hugeicons/core-free-icons";
-import type { FeatureIcon } from "../i18n/dictionaries";
-import { useLanguage } from "../i18n/useLanguage";
+} from '@hugeicons/core-free-icons';
+import type { FeatureIcon } from '../i18n/dictionaries';
+import { useLanguage } from '../i18n/useLanguage';
 
 const ICONS: Record<FeatureIcon, typeof Image01Icon> = {
   image: Image01Icon,

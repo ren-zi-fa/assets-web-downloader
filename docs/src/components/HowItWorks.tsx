@@ -9,7 +9,9 @@ export function HowItWorks() {
     <section id="cara-kerja" className="border-y border-border bg-muted/40">
       <div className="mx-auto w-full max-w-6xl scroll-mt-20 px-4 py-12 sm:px-6">
         <div className="max-w-2xl text-left">
-          <p className="text-xs font-semibold tracking-widest text-brand uppercase">{section.eyebrow}</p>
+          <p className="text-xs font-semibold tracking-widest text-brand uppercase">
+            {section.eyebrow}
+          </p>
           <h2 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             {section.title}
           </h2>

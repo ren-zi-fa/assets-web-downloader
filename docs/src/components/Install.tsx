@@ -1,23 +1,25 @@
-import { useState } from "react";
-import { HugeiconsIcon } from "@hugeicons/react";
+import { useState } from 'react';
+import { HugeiconsIcon } from '@hugeicons/react';
 import {
   AlertCircleIcon,
   ChromeIcon,
   Copy01Icon,
   Download01Icon,
   GlobeIcon,
-} from "@hugeicons/core-free-icons";
-import { buttonVariants } from "./ui/button";
-import { RELEASES_URL } from "../i18n/dictionaries";
-import { useLanguage } from "../i18n/useLanguage";
-import { cn } from "../lib/utils";
+} from '@hugeicons/core-free-icons';
+import { buttonVariants } from './ui/button';
+import { RELEASES_URL } from '../i18n/dictionaries';
+import { useLanguage } from '../i18n/useLanguage';
+import { cn } from '../lib/utils';
 
 export function Install() {
   const { t } = useLanguage();
   const install = t.install;
-  const [active, setActive] = useState<string>(install.tabs[0].id);
+  const [active, setActive] = useState<string>(install.tabs[0]?.id ?? 'chrome');
   const [copied, setCopied] = useState(false);
   const tab = install.tabs.find((item) => item.id === active) ?? install.tabs[0];
+
+  if (!tab) return null;
 
   const copyFileName = async () => {
     try {
@@ -50,14 +52,14 @@ export function Install() {
             type="button"
             onClick={() => setActive(item.id)}
             className={cn(
-              "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+              'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors',
               active === item.id
-                ? "border-brand bg-brand text-white"
-                : "border-border bg-card text-muted-foreground hover:text-foreground",
+                ? 'border-brand bg-brand text-white'
+                : 'border-border bg-card text-muted-foreground hover:text-foreground',
             )}
           >
             <HugeiconsIcon
-              icon={item.id === "chrome" ? ChromeIcon : GlobeIcon}
+              icon={item.id === 'chrome' ? ChromeIcon : GlobeIcon}
               strokeWidth={2}
               className="size-4"
             />
@@ -86,7 +88,7 @@ export function Install() {
             href={RELEASES_URL}
             target="_blank"
             rel="noreferrer"
-            className={buttonVariants({ size: "sm" })}
+            className={buttonVariants({ size: 'sm' })}
           >
             <HugeiconsIcon icon={Download01Icon} strokeWidth={2} />
             {install.openReleases}

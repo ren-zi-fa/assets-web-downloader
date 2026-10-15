@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { HugeiconsIcon } from "@hugeicons/react";
+import { useState } from 'react';
+import { HugeiconsIcon } from '@hugeicons/react';
 import {
   ArrowRight01Icon,
   CheckmarkCircle02Icon,
   ShieldCheckIcon,
   ZoomInIcon,
-} from "@hugeicons/core-free-icons";
-import { buttonVariants } from "./ui/button";
-import { Lightbox } from "./Lightbox";
-import { RELEASES_URL } from "../i18n/dictionaries";
-import { useLanguage } from "../i18n/useLanguage";
+} from '@hugeicons/core-free-icons';
+import { buttonVariants } from './ui/button';
+import { Lightbox } from './Lightbox';
+import { RELEASES_URL } from '../i18n/dictionaries';
+import { useLanguage } from '../i18n/useLanguage';
 
 export function Hero() {
   const { t } = useLanguage();
@@ -35,12 +35,12 @@ export function Hero() {
               href={RELEASES_URL}
               target="_blank"
               rel="noreferrer"
-              className={buttonVariants({ size: "lg" })}
+              className={buttonVariants({ size: 'lg' })}
             >
               {hero.primaryCta}
               <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} />
             </a>
-            <a href="#instalasi" className={buttonVariants({ variant: "outline", size: "lg" })}>
+            <a href="#instalasi" className={buttonVariants({ variant: 'outline', size: 'lg' })}>
               {hero.secondaryCta}
             </a>
           </div>

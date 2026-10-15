@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
-import { useLanguage } from "../i18n/useLanguage";
-import { cn } from "../lib/utils";
+import { useState } from 'react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowDown01Icon } from '@hugeicons/core-free-icons';
+import { useLanguage } from '../i18n/useLanguage';
+import { cn } from '../lib/utils';
 
 export function Faq() {
   const { t } = useLanguage();
@@ -41,8 +41,8 @@ export function Faq() {
                     icon={ArrowDown01Icon}
                     strokeWidth={2}
                     className={cn(
-                      "size-4 shrink-0 text-muted-foreground transition-transform",
-                      isOpen && "rotate-180",
+                      'size-4 shrink-0 text-muted-foreground transition-transform',
+                      isOpen && 'rotate-180',
                     )}
                   />
                 </button>

@@ -80,7 +80,11 @@ export const id: Dictionary = {
     screenshot: { src: '/main.jpeg', alt: 'Popup Asset Downloader' },
     caption: 'Popup extension: pilih tab Images, Sprite, Font, atau Audio lalu tekan Analyze.',
     lightboxCaption: 'Popup extension Asset Downloader',
-    bullets: ['Manifest V3 untuk Chromium', 'Manifest V2 untuk Firefox', 'Data tidak pernah diupload'],
+    bullets: [
+      'Manifest V3 untuk Chromium',
+      'Manifest V2 untuk Firefox',
+      'Data tidak pernah diupload',
+    ],
   },
   features: {
     eyebrow: 'Fitur',
@@ -111,7 +115,8 @@ export const id: Dictionary = {
       {
         icon: 'font',
         title: 'Fonts',
-        description: '@font-face yang bisa didownload, link Google Fonts, dan font yang dipakai halaman.',
+        description:
+          '@font-face yang bisa didownload, link Google Fonts, dan font yang dipakai halaman.',
         points: ['Klik nama font untuk cari di Google', 'Deteksi font yang benar-benar dipakai'],
       },
       {
@@ -129,7 +134,8 @@ export const id: Dictionary = {
       {
         no: '1',
         title: 'Buka website biasa',
-        description: 'Buka halaman http(s) normal — mis. galeri atau halaman yang banyak gambarnya.',
+        description:
+          'Buka halaman http(s) normal — mis. galeri atau halaman yang banyak gambarnya.',
       },
       {
         no: '2',
@@ -144,10 +150,26 @@ export const id: Dictionary = {
       },
     ],
     gallery: [
-      { src: '/tampilan-1.png', alt: 'Tampilan extension Asset Downloader 1', caption: 'Tampilan extension Asset Downloader 1' },
-      { src: '/tampilan-2.png', alt: 'Tampilan extension Asset Downloader 2', caption: 'Tampilan extension Asset Downloader 2' },
-      { src: '/tampilan-3.png', alt: 'Tampilan extension Asset Downloader 3', caption: 'Tampilan extension Asset Downloader 3' },
-      { src: '/tampilan-4.png', alt: 'Tampilan extension Asset Downloader 4', caption: 'Tampilan extension Asset Downloader 4' },
+      {
+        src: '/tampilan-1.png',
+        alt: 'Tampilan extension Asset Downloader 1',
+        caption: 'Tampilan extension Asset Downloader 1',
+      },
+      {
+        src: '/tampilan-2.png',
+        alt: 'Tampilan extension Asset Downloader 2',
+        caption: 'Tampilan extension Asset Downloader 2',
+      },
+      {
+        src: '/tampilan-3.png',
+        alt: 'Tampilan extension Asset Downloader 3',
+        caption: 'Tampilan extension Asset Downloader 3',
+      },
+      {
+        src: '/tampilan-4.png',
+        alt: 'Tampilan extension Asset Downloader 4',
+        caption: 'Tampilan extension Asset Downloader 4',
+      },
     ],
   },
   install: {
@@ -283,7 +305,10 @@ export const en: Dictionary = {
         title: 'Fonts',
         description:
           'Downloadable @font-face files, Google Fonts links, and fonts actually used by the page.',
-        points: ['Click a font name to search for it on Google', 'Detects fonts the page really uses'],
+        points: [
+          'Click a font name to search for it on Google',
+          'Detects fonts the page really uses',
+        ],
       },
       {
         icon: 'audio',
@@ -318,10 +343,26 @@ export const en: Dictionary = {
       },
     ],
     gallery: [
-      { src: '/tampilan-1.png', alt: 'Asset Downloader extension screenshot 1', caption: 'Asset Downloader extension screenshot 1' },
-      { src: '/tampilan-2.png', alt: 'Asset Downloader extension screenshot 2', caption: 'Asset Downloader extension screenshot 2' },
-      { src: '/tampilan-3.png', alt: 'Asset Downloader extension screenshot 3', caption: 'Asset Downloader extension screenshot 3' },
-      { src: '/tampilan-4.png', alt: 'Asset Downloader extension screenshot 4', caption: 'Asset Downloader extension screenshot 4' },
+      {
+        src: '/tampilan-1.png',
+        alt: 'Asset Downloader extension screenshot 1',
+        caption: 'Asset Downloader extension screenshot 1',
+      },
+      {
+        src: '/tampilan-2.png',
+        alt: 'Asset Downloader extension screenshot 2',
+        caption: 'Asset Downloader extension screenshot 2',
+      },
+      {
+        src: '/tampilan-3.png',
+        alt: 'Asset Downloader extension screenshot 3',
+        caption: 'Asset Downloader extension screenshot 3',
+      },
+      {
+        src: '/tampilan-4.png',
+        alt: 'Asset Downloader extension screenshot 4',
+        caption: 'Asset Downloader extension screenshot 4',
+      },
     ],
   },
   install: {

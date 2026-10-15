@@ -1,13 +1,13 @@
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Download01Icon, Github01Icon } from "@hugeicons/core-free-icons";
-import { buttonVariants } from "./ui/button";
-import { RELEASES_URL, REPO_URL, type Lang } from "../i18n/dictionaries";
-import { useLanguage } from "../i18n/useLanguage";
-import { cn } from "../lib/utils";
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Download01Icon, Github01Icon } from '@hugeicons/core-free-icons';
+import { buttonVariants } from './ui/button';
+import { RELEASES_URL, REPO_URL, type Lang } from '../i18n/dictionaries';
+import { useLanguage } from '../i18n/useLanguage';
+import { cn } from '../lib/utils';
 
 const LANG_OPTIONS: { value: Lang; label: string }[] = [
-  { value: "id", label: "ID" },
-  { value: "en", label: "EN" },
+  { value: 'id', label: 'ID' },
+  { value: 'en', label: 'EN' },
 ];
 
 export function Navbar() {
@@ -46,10 +46,10 @@ export function Navbar() {
                 onClick={() => setLang(option.value)}
                 aria-pressed={lang === option.value}
                 className={cn(
-                  "rounded-full px-2.5 py-1 text-xs font-semibold transition-colors",
+                  'rounded-full px-2.5 py-1 text-xs font-semibold transition-colors',
                   lang === option.value
-                    ? "bg-brand text-white"
-                    : "text-muted-foreground hover:text-foreground",
+                    ? 'bg-brand text-white'
+                    : 'text-muted-foreground hover:text-foreground',
                 )}
               >
                 {option.label}
@@ -60,7 +60,11 @@ export function Navbar() {
             href={REPO_URL}
             target="_blank"
             rel="noreferrer"
-            className={buttonVariants({ variant: "ghost", size: "sm", className: "hidden sm:inline-flex" })}
+            className={buttonVariants({
+              variant: 'ghost',
+              size: 'sm',
+              className: 'hidden sm:inline-flex',
+            })}
           >
             <HugeiconsIcon icon={Github01Icon} strokeWidth={2} />
             GitHub
@@ -69,7 +73,7 @@ export function Navbar() {
             href={RELEASES_URL}
             target="_blank"
             rel="noreferrer"
-            className={buttonVariants({ size: "sm" })}
+            className={buttonVariants({ size: 'sm' })}
           >
             <HugeiconsIcon icon={Download01Icon} strokeWidth={2} />
             {t.navDownload}

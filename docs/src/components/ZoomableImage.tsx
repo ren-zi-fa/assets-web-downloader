@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { ZoomInIcon } from "@hugeicons/core-free-icons";
-import { Lightbox } from "./Lightbox";
-import { useLanguage } from "../i18n/useLanguage";
-import { cn } from "../lib/utils";
+import { useState } from 'react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ZoomInIcon } from '@hugeicons/core-free-icons';
+import { Lightbox } from './Lightbox';
+import { useLanguage } from '../i18n/useLanguage';
+import { cn } from '../lib/utils';
 
 type ZoomableImageProps = {
   src: string;
@@ -29,7 +29,7 @@ export function ZoomableImage({
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`${t.ui.enlargePrefix}${alt}`}
-        className={cn("group relative block w-full cursor-zoom-in", buttonClassName)}
+        className={cn('group relative block w-full cursor-zoom-in', buttonClassName)}
       >
         <img src={src} alt={alt} loading="lazy" className={imgClassName} />
         <span className="absolute inset-0 flex items-center justify-center rounded-[inherit] bg-black/0 transition-colors group-hover:bg-black/25">
@@ -39,13 +39,7 @@ export function ZoomableImage({
           </span>
         </span>
       </button>
-      <Lightbox
-        src={src}
-        alt={alt}
-        caption={caption}
-        open={open}
-        onClose={() => setOpen(false)}
-      />
+      <Lightbox src={src} alt={alt} caption={caption} open={open} onClose={() => setOpen(false)} />
     </>
   );
 }

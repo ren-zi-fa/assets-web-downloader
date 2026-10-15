@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Cancel01Icon } from "@hugeicons/core-free-icons";
-import { useLanguage } from "../i18n/useLanguage";
+import { useEffect } from 'react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Cancel01Icon } from '@hugeicons/core-free-icons';
+import { useLanguage } from '../i18n/useLanguage';
 
 type LightboxProps = {
   src: string;
@@ -16,13 +16,13 @@ export function Lightbox({ src, alt, caption, open, onClose }: LightboxProps) {
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === 'Escape') onClose();
     };
-    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener('keydown', onKeyDown);
     const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
     return () => {
-      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = prevOverflow;
     };
   }, [open, onClose]);
