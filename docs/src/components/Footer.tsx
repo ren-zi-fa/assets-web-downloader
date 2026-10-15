@@ -12,7 +12,7 @@ export function Footer() {
     <footer className="border-t border-border">
       <div className="mx-auto w-full max-w-6xl px-4 py-12 text-center sm:px-6">
         <img
-          src="/icon-128.png"
+          src="icon-128.png"
           alt="Logo Asset Downloader"
           className="mx-auto size-12 rounded-2xl"
         />

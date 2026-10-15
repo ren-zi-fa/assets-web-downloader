@@ -17,7 +17,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <a href="#atas" className="flex items-center gap-2.5">
-          <img src="/icon-128.png" alt="Logo Asset Downloader" className="size-7 rounded-lg" />
+          <img src="icon-128.png" alt="Logo Asset Downloader" className="size-7 rounded-lg" />
           <span className="text-sm font-semibold tracking-tight text-foreground">
             Asset Downloader
           </span>

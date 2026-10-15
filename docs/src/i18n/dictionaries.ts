@@ -77,7 +77,7 @@ export const id: Dictionary = {
       'Asset Downloader adalah extension browser yang memindai halaman yang sedang kamu buka, lalu membiarkanmu download gambar, sprite, font, dan audio satu per satu — tanpa DevTools.',
     primaryCta: 'Download extension',
     secondaryCta: 'Cara instalasi',
-    screenshot: { src: '/main.jpeg', alt: 'Popup Asset Downloader' },
+    screenshot: { src: 'main.jpeg', alt: 'Popup Asset Downloader' },
     caption: 'Popup extension: pilih tab Images, Sprite, Font, atau Audio lalu tekan Analyze.',
     lightboxCaption: 'Popup extension Asset Downloader',
     bullets: [
@@ -151,22 +151,22 @@ export const id: Dictionary = {
     ],
     gallery: [
       {
-        src: '/tampilan-1.png',
+        src: 'tampilan-1.png',
         alt: 'Tampilan extension Asset Downloader 1',
         caption: 'Tampilan extension Asset Downloader 1',
       },
       {
-        src: '/tampilan-2.png',
+        src: 'tampilan-2.png',
         alt: 'Tampilan extension Asset Downloader 2',
         caption: 'Tampilan extension Asset Downloader 2',
       },
       {
-        src: '/tampilan-3.png',
+        src: 'tampilan-3.png',
         alt: 'Tampilan extension Asset Downloader 3',
         caption: 'Tampilan extension Asset Downloader 3',
       },
       {
-        src: '/tampilan-4.png',
+        src: 'tampilan-4.png',
         alt: 'Tampilan extension Asset Downloader 4',
         caption: 'Tampilan extension Asset Downloader 4',
       },
@@ -269,7 +269,7 @@ export const en: Dictionary = {
       "Asset Downloader is a browser extension that scans the page you're viewing, letting you download images, sprites, fonts, and audio one by one — no DevTools needed.",
     primaryCta: 'Download extension',
     secondaryCta: 'Installation guide',
-    screenshot: { src: '/main.jpeg', alt: 'Asset Downloader popup' },
+    screenshot: { src: 'main.jpeg', alt: 'Asset Downloader popup' },
     caption: 'Extension popup: pick the Images, Sprite, Font, or Audio tab, then press Analyze.',
     lightboxCaption: 'Asset Downloader extension popup',
     bullets: ['Manifest V3 for Chromium', 'Manifest V2 for Firefox', 'Your data is never uploaded'],
@@ -344,22 +344,22 @@ export const en: Dictionary = {
     ],
     gallery: [
       {
-        src: '/tampilan-1.png',
+        src: 'tampilan-1.png',
         alt: 'Asset Downloader extension screenshot 1',
         caption: 'Asset Downloader extension screenshot 1',
       },
       {
-        src: '/tampilan-2.png',
+        src: 'tampilan-2.png',
         alt: 'Asset Downloader extension screenshot 2',
         caption: 'Asset Downloader extension screenshot 2',
       },
       {
-        src: '/tampilan-3.png',
+        src: 'tampilan-3.png',
         alt: 'Asset Downloader extension screenshot 3',
         caption: 'Asset Downloader extension screenshot 3',
       },
       {
-        src: '/tampilan-4.png',
+        src: 'tampilan-4.png',
         alt: 'Asset Downloader extension screenshot 4',
         caption: 'Asset Downloader extension screenshot 4',
       },
