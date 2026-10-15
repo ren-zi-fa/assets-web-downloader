@@ -3,5 +3,9 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "jsx": "react-jsx"
-  }
+  },
+  // docs/ adalah project Vite terpisah (punya package.json + lockfile sendiri).
+  // Tanpa ini, tsc root ikut ngecek docs/ tapi deps-nya tidak terinstall di CI.
+  "include": ["./**/*", ".wxt/wxt.d.ts"],
+  "exclude": ["**/node_modules", ".output", "dist", "docs"]
 }
