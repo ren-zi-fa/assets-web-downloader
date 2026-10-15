@@ -1,5 +1,7 @@
 export const REPO_URL = 'https://github.com/ren-zi-fa/assets-web-downloader';
 export const RELEASES_URL = `${REPO_URL}/releases/latest`;
+export const CHROME_WEBSTORE_URL =
+  'https://chromewebstore.google.com/detail/hgjmobeeoakacnbllmodianbiiofchjm?utm_source=item-share-cb';
 
 export type Lang = 'id' | 'en';
 export type FeatureIcon = 'image' | 'sprite' | 'font' | 'audio';
@@ -35,11 +37,17 @@ export type Dictionary = {
     eyebrow: string;
     title: string;
     subtitle: string;
-    tabs: { id: string; label: string; downloadFile: string; steps: string[] }[];
+    tabs: {
+      id: string;
+      label: string;
+      downloadFile?: string;
+      url: string;
+      cta: string;
+      steps: string[];
+    }[];
     copy: string;
     copied: string;
     copyFileNameLabel: string;
-    openReleases: string;
     notes: string[];
   };
   faq: {
@@ -174,24 +182,27 @@ export const id: Dictionary = {
   },
   install: {
     eyebrow: 'Instalasi',
-    title: 'Install manual dalam 2 menit',
-    subtitle: 'Ambil paket jadi dari halaman Releases — tidak perlu build tool apa pun.',
+    title: 'Install dalam 2 menit',
+    subtitle: 'Chrome lewat Chrome Web Store, Firefox lewat Releases. Tidak perlu build tool apa pun.',
     tabs: [
       {
         id: 'chrome',
         label: 'Chrome / Edge / Brave',
-        downloadFile: 'asset-downloader-<versi>-chrome.zip',
+        url: CHROME_WEBSTORE_URL,
+        cta: 'Buka Chrome Web Store',
         steps: [
-          'Buka halaman Releases dan download arsip chrome.zip versi terbaru, lalu unzip. Kamu akan dapat folder berisi manifest.json.',
-          'Buka chrome://extensions (atau edge://extensions) dan nyalakan Developer mode di kanan atas.',
-          'Klik Load unpacked, lalu pilih folder hasil unzip tadi.',
-          'Extension muncul di toolbar dan siap dipakai.',
+          'Buka halaman Chrome Web Store untuk Asset Downloader.',
+          'Klik tombol Add to Chrome (atau Tambahkan ke Chrome) di kanan atas.',
+          'Konfirmasi dengan klik Add extension pada dialog yang muncul.',
+          'Extension terpasang otomatis dan muncul di toolbar, siap dipakai.',
         ],
       },
       {
         id: 'firefox',
         label: 'Firefox',
         downloadFile: 'asset-downloader-<versi>-firefox.zip',
+        url: RELEASES_URL,
+        cta: 'Buka Releases',
         steps: [
           'Download arsip firefox.zip dari halaman Releases, lalu unzip.',
           'Cara cepat (sementara): buka about:debugging#/runtime/this-firefox, klik Load Temporary Add-on, lalu pilih file manifest.json di dalam folder unzip.',
@@ -203,10 +214,9 @@ export const id: Dictionary = {
     copy: 'Salin',
     copied: 'Tersalin',
     copyFileNameLabel: 'Salin nama file',
-    openReleases: 'Buka Releases',
     notes: [
       'Extension tidak bisa memindai halaman internal browser (about:, chrome://, edge://, New Tab). Buka halaman http(s) biasa.',
-      'Update: download paket baru, timpa folder lama, lalu tekan reload di halaman chrome://extensions / about:debugging.',
+      'Update: Chrome otomatis ter-update dari Chrome Web Store. Untuk Firefox, download paket baru lalu muat ulang lewat about:debugging.',
     ],
   },
   faq: {
@@ -367,24 +377,28 @@ export const en: Dictionary = {
   },
   install: {
     eyebrow: 'Install',
-    title: 'Manual install in 2 minutes',
-    subtitle: 'Grab the ready-made package from the Releases page — no build tools needed.',
+    title: 'Install in 2 minutes',
+    subtitle:
+      'Chrome via the Chrome Web Store, Firefox via Releases. No build tools needed.',
     tabs: [
       {
         id: 'chrome',
         label: 'Chrome / Edge / Brave',
-        downloadFile: 'asset-downloader-<version>-chrome.zip',
+        url: CHROME_WEBSTORE_URL,
+        cta: 'Open Chrome Web Store',
         steps: [
-          'Open the Releases page and download the latest chrome.zip archive, then unzip it. You will get a folder containing manifest.json.',
-          'Open chrome://extensions (or edge://extensions) and turn on Developer mode (top-right).',
-          'Click Load unpacked, then select the unzipped folder.',
-          'The extension appears in your toolbar and is ready to use.',
+          'Open the Chrome Web Store page for Asset Downloader.',
+          'Click the Add to Chrome button in the top-right.',
+          'Confirm by clicking Add extension in the dialog that appears.',
+          'The extension installs automatically, appears in your toolbar, and is ready to use.',
         ],
       },
       {
         id: 'firefox',
         label: 'Firefox',
         downloadFile: 'asset-downloader-<version>-firefox.zip',
+        url: RELEASES_URL,
+        cta: 'Open Releases',
         steps: [
           'Download the firefox.zip archive from the Releases page, then unzip it.',
           'Quick way (temporary): open about:debugging#/runtime/this-firefox, click Load Temporary Add-on, then select the manifest.json file inside the unzipped folder.',
@@ -396,10 +410,9 @@ export const en: Dictionary = {
     copy: 'Copy',
     copied: 'Copied',
     copyFileNameLabel: 'Copy file name',
-    openReleases: 'Open Releases',
     notes: [
       'The extension cannot scan browser-internal pages (about:, chrome://, edge://, New Tab). Open a regular http(s) page instead.',
-      'Updating: download the newer package, overwrite the old folder, then press reload on chrome://extensions / about:debugging.',
+      'Updating: Chrome updates automatically from the Chrome Web Store. For Firefox, download the newer package and reload it via about:debugging.',
     ],
   },
   faq: {

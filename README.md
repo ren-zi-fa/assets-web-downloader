@@ -28,11 +28,16 @@ Full user docs — features, installation guide, and FAQ — are on the landing 
 
 ## Install
 
-No build tools required. Grab the ready-made package from the
+No build tools required.
+
+**Chrome / Edge / Brave** — install directly from the
+**[Chrome Web Store](https://chromewebstore.google.com/detail/hgjmobeeoakacnbllmodianbiiofchjm?utm_source=item-share-cb)**.
+
+**Firefox** — download the ready-made `.zip` / `.xpi` from the
 **[Releases page](https://github.com/ren-zi-fa/assets-web-downloader/releases/latest)**,
-unzip it, and load it as an unpacked extension (`chrome://extensions` with
-Developer mode on, or `about:debugging` on Firefox). Step-by-step instructions
-with screenshots are on the landing page at
+then load it via `about:debugging` (temporary) or `about:addons` (signed `.xpi`).
+
+Step-by-step instructions with screenshots are on the landing page at
 [ren-zi-fa.github.io/assets-web-downloader](https://ren-zi-fa.github.io/assets-web-downloader/).
 
 ## Building from source

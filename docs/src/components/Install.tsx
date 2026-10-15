@@ -8,7 +8,6 @@ import {
   GlobeIcon,
 } from '@hugeicons/core-free-icons';
 import { buttonVariants } from './ui/button';
-import { RELEASES_URL } from '../i18n/dictionaries';
 import { useLanguage } from '../i18n/useLanguage';
 import { cn } from '../lib/utils';
 
@@ -22,6 +21,7 @@ export function Install() {
   if (!tab) return null;
 
   const copyFileName = async () => {
+    if (!tab.downloadFile) return;
     try {
       await navigator.clipboard.writeText(tab.downloadFile);
       setCopied(true);
@@ -71,27 +71,31 @@ export function Install() {
       <div className="mt-4 rounded-2xl border border-border bg-card p-6 text-left sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground sm:text-sm">
-            <code className="rounded-md bg-muted px-2.5 py-1.5 text-foreground">
-              {tab.downloadFile}
-            </code>
-            <button
-              type="button"
-              onClick={copyFileName}
-              className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
-              aria-label={install.copyFileNameLabel}
-            >
-              <HugeiconsIcon icon={Copy01Icon} strokeWidth={2} className="size-3.5" />
-              {copied ? install.copied : install.copy}
-            </button>
+            {tab.downloadFile && (
+              <>
+                <code className="rounded-md bg-muted px-2.5 py-1.5 text-foreground">
+                  {tab.downloadFile}
+                </code>
+                <button
+                  type="button"
+                  onClick={copyFileName}
+                  className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  aria-label={install.copyFileNameLabel}
+                >
+                  <HugeiconsIcon icon={Copy01Icon} strokeWidth={2} className="size-3.5" />
+                  {copied ? install.copied : install.copy}
+                </button>
+              </>
+            )}
           </div>
           <a
-            href={RELEASES_URL}
+            href={tab.url}
             target="_blank"
             rel="noreferrer"
             className={buttonVariants({ size: 'sm' })}
           >
             <HugeiconsIcon icon={Download01Icon} strokeWidth={2} />
-            {install.openReleases}
+            {tab.cta}
           </a>
         </div>
         <ol className="mt-6 space-y-4">
