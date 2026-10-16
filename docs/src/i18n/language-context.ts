@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import type { Dictionary, Lang } from './dictionaries';
+import type { Dictionary, Lang } from './types';
 
 export type LanguageContextValue = {
   lang: Lang;

@@ -4,9 +4,10 @@ import {
   Image01Icon,
   Layers01Icon,
   MusicNote01Icon,
+  PaintBoardIcon,
   TextFontIcon,
 } from '@hugeicons/core-free-icons';
-import type { FeatureIcon } from '../i18n/dictionaries';
+import type { FeatureIcon } from '../i18n/types';
 import { useLanguage } from '../i18n/useLanguage';
 
 const ICONS: Record<FeatureIcon, typeof Image01Icon> = {
@@ -14,6 +15,7 @@ const ICONS: Record<FeatureIcon, typeof Image01Icon> = {
   sprite: Layers01Icon,
   font: TextFontIcon,
   audio: MusicNote01Icon,
+  color: PaintBoardIcon,
 };
 
 export function Features() {
@@ -42,7 +44,14 @@ export function Features() {
             <span className="inline-flex size-10 items-center justify-center rounded-xl bg-brand/10 text-brand">
               <HugeiconsIcon icon={ICONS[feature.icon]} strokeWidth={2} className="size-5" />
             </span>
-            <h3 className="mt-4 text-base font-semibold text-foreground">{feature.title}</h3>
+            <h3 className="mt-4 flex items-center gap-2 text-base font-semibold text-foreground">
+              {feature.title}
+              {feature.badge && (
+                <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-emerald-600 uppercase dark:text-emerald-400">
+                  {feature.badge}
+                </span>
+              )}
+            </h3>
             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
               {feature.description}
             </p>

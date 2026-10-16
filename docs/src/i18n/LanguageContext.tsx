@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { dictionaries, type Lang } from './dictionaries';
+import { dictionaries } from './dictionaries';
 import { LanguageContext } from './language-context';
+import type { Lang } from './types';
 
 const STORAGE_KEY = 'ad-lang';
 
