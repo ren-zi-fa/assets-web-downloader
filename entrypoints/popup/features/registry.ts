@@ -1,8 +1,10 @@
 import type { ComponentType } from 'react';
-import { AudioLines, Images, Shapes, Type, type LucideIcon } from 'lucide-react';
+import { AudioLines, Images, Palette, Shapes, Type, type LucideIcon } from 'lucide-react';
 import type { ScanResult } from '../shared/scan';
 import { AudioPanel } from './audio/AudioPanel';
 import { scanAudioNetwork, scanPageAudio } from './audio/scanner';
+import { ColorPanel } from './colors/ColorPanel';
+import { scanPageColors } from './colors/scanner';
 import { FontPanel } from './fonts/FontPanel';
 import { scanPageFonts } from './fonts/scanner';
 import { ImagePanel } from './images/ImagePanel';
@@ -10,7 +12,7 @@ import { scanPageImages } from './images/scanner';
 import { scanPageSprites, scanSpriteSources } from './sprite/scanner';
 import { SpritePanel } from './sprite/SpritePanel';
 
-export type FeatureId = 'images' | 'sprite' | 'fonts' | 'audio';
+export type FeatureId = 'images' | 'sprite' | 'fonts' | 'audio' | 'colors';
 
 export interface PanelProps {
   items: unknown[];
@@ -69,6 +71,16 @@ export const FEATURES: FeatureEntry[] = [
     scan: scanPageAudio,
     scanNetwork: scanAudioNetwork,
     Panel: AudioPanel,
+  },
+  {
+    id: 'colors',
+    label: 'Colors',
+    icon: Palette,
+    noun: 'colors',
+    emptyHint:
+      'Note: colors are collected from rendered text, backgrounds, borders, inline SVG, and the theme-color meta tag.',
+    scan: scanPageColors,
+    Panel: ColorPanel,
   },
 ];
 

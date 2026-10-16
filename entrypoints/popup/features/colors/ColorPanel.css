@@ -1,0 +1,26 @@
+.ad-color-swatch {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  padding: 0;
+  border-radius: 8px;
+  /* Border tipis agar warna terang tetap terlihat di kartu putih. */
+  border: 1px solid rgba(13, 71, 161, 0.35);
+  cursor: pointer;
+}
+
+.ad-color-hex {
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  font-weight: 600;
+  color: #1565c0;
+  cursor: pointer;
+}
+
+.ad-color-hex:hover {
+  text-decoration: underline;
+}

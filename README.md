@@ -4,7 +4,7 @@
   <img src="public/icon/128.png" alt="Asset Downloader logo" width="112" height="112">
 </p>
 
-<h3 align="center">Scan and download images, sprites, fonts, and audio from any web page.</h3>
+<h3 align="center">Scan and download images, sprites, fonts, audio, and colors from any web page.</h3>
 
 <p align="center">
   <a href="https://github.com/ren-zi-fa/assets-web-downloader/releases/latest"><img src="https://img.shields.io/github/v/release/ren-zi-fa/assets-web-downloader?label=release&color=1bb9ee" alt="Latest release"></a>
@@ -15,8 +15,8 @@
 </p>
 
 Asset Downloader is a browser extension that scans the page you are viewing and
-lets you **download images, sprites, fonts, and audio** one by one — no browser
-DevTools required. Built with [WXT](https://wxt.dev) + React, published as **Manifest V3**
+lets you **download images, sprites, fonts, and audio** and **inspect the colors**
+on the page — no browser DevTools required. Built with [WXT](https://wxt.dev) + React, published as **Manifest V3**
 for Chromium browsers and **Manifest V2** for Firefox.
 
 ![Asset Downloader popup](images/tampilan-1.png)

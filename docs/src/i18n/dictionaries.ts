@@ -4,7 +4,7 @@ export const CHROME_WEBSTORE_URL =
   'https://chromewebstore.google.com/detail/hgjmobeeoakacnbllmodianbiiofchjm?utm_source=item-share-cb';
 
 export type Lang = 'id' | 'en';
-export type FeatureIcon = 'image' | 'sprite' | 'font' | 'audio';
+export type FeatureIcon = 'image' | 'sprite' | 'font' | 'audio' | 'color';
 
 export type Dictionary = {
   navLinks: { label: string; href: string }[];
@@ -25,7 +25,14 @@ export type Dictionary = {
     eyebrow: string;
     title: string;
     subtitle: string;
-    items: { icon: FeatureIcon; title: string; description: string; points: string[] }[];
+    items: {
+      icon: FeatureIcon;
+      title: string;
+      description: string;
+      points: string[];
+      /** Label opsional di samping judul, mis. 'NEW'. */
+      badge?: string;
+    }[];
   };
   howItWorks: {
     eyebrow: string;
@@ -86,7 +93,8 @@ export const id: Dictionary = {
     primaryCta: 'Download extension',
     secondaryCta: 'Cara instalasi',
     screenshot: { src: 'main.jpeg', alt: 'Popup Asset Downloader' },
-    caption: 'Popup extension: pilih tab Images, Sprite, Font, atau Audio lalu tekan Analyze.',
+    caption:
+      'Popup extension: pilih tab Images, Sprite, Font, Audio, atau Colors lalu tekan Analyze.',
     lightboxCaption: 'Popup extension Asset Downloader',
     bullets: [
       'Manifest V3 untuk Chromium',
@@ -132,6 +140,14 @@ export const id: Dictionary = {
         title: 'Audio',
         description: '<audio>, <video>, link audio langsung, dan metadata og:audio.',
         points: ['Deteksi suara Web Audio API (mis. howler.js)', 'Copy URL atau Download per aset'],
+      },
+      {
+        icon: 'color',
+        title: 'Colors',
+        badge: 'NEW',
+        description:
+          'Warna yang benar-benar tampil halaman: teks, background, border, SVG inline, dan theme-color.',
+        points: ['Kotak contoh warna + kode heksadesimal', 'Klik kode hex untuk menyalinnya'],
       },
     ],
   },
@@ -281,7 +297,8 @@ export const en: Dictionary = {
     primaryCta: 'Download extension',
     secondaryCta: 'Installation guide',
     screenshot: { src: 'main.jpeg', alt: 'Asset Downloader popup' },
-    caption: 'Extension popup: pick the Images, Sprite, Font, or Audio tab, then press Analyze.',
+    caption:
+      'Extension popup: pick the Images, Sprite, Font, Audio, or Colors tab, then press Analyze.',
     lightboxCaption: 'Asset Downloader extension popup',
     bullets: ['Manifest V3 for Chromium', 'Manifest V2 for Firefox', 'Your data is never uploaded'],
   },
@@ -329,6 +346,14 @@ export const en: Dictionary = {
           'Detects sounds played via the Web Audio API (e.g. howler.js)',
           'Copy URL or Download per asset',
         ],
+      },
+      {
+        icon: 'color',
+        title: 'Colors',
+        badge: 'NEW',
+        description:
+          'The colors actually shown on the page: text, backgrounds, borders, inline SVG, and theme-color.',
+        points: ['Color swatch + hexadecimal code', 'Click the hex code to copy it'],
       },
     ],
   },
