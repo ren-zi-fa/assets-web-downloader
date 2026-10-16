@@ -1,7 +1,7 @@
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Download01Icon, Github01Icon } from '@hugeicons/core-free-icons';
 import { buttonVariants } from './ui/button';
-import { RELEASES_URL, REPO_URL } from '../i18n/dictionaries';
+import { RELEASES_URL, REPO_URL } from '../i18n/constants';
 import { useLanguage } from '../i18n/useLanguage';
 
 export function Footer() {

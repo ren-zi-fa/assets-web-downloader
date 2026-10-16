@@ -7,7 +7,7 @@ import {
   PaintBoardIcon,
   TextFontIcon,
 } from '@hugeicons/core-free-icons';
-import type { FeatureIcon } from '../i18n/dictionaries';
+import type { FeatureIcon } from '../i18n/types';
 import { useLanguage } from '../i18n/useLanguage';
 
 const ICONS: Record<FeatureIcon, typeof Image01Icon> = {

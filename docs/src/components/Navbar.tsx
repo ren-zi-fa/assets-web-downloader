@@ -1,8 +1,9 @@
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Download01Icon, Github01Icon } from '@hugeicons/core-free-icons';
 import { buttonVariants } from './ui/button';
-import { REPO_URL, type Lang } from '../i18n/dictionaries';
+import { REPO_URL } from '../i18n/constants';
 import { useLanguage } from '../i18n/useLanguage';
+import type { Lang } from '../i18n/types';
 import { cn } from '../lib/utils';
 
 const LANG_OPTIONS: { value: Lang; label: string }[] = [
