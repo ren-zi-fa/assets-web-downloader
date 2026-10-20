@@ -1,1 +1,0 @@
-import{a as e,g as t,n,r,t as i}from"./jsx-runtime-BZb8e8Fd.js";var a=i();function o(){return(0,a.jsxs)(`html`,{children:[(0,a.jsxs)(`head`,{children:[(0,a.jsx)(`link`,{rel:`icon`,href:`data:image/x-icon;base64,AA`}),(0,a.jsx)(r,{}),(0,a.jsx)(n,{})]}),(0,a.jsxs)(`body`,{children:[(0,a.jsx)(`h1`,{children:`Hello world!`}),(0,a.jsx)(t,{}),(0,a.jsx)(e,{})]})]})}export{o as default};
