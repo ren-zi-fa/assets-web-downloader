@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/Firefox-Manifest%20V2-1bb9ee?logo=firefoxbrowser&logoColor=white" alt="Firefox Manifest V2">
 </p>
 
-Asset Downloader is a browser extension that scans the page you are viewing and
+Asset Downloader is a browser extension that scans the page you are viewing and download it
 
 ## Install
 
