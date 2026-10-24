@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       lucide-react:
-        specifier: ^1.55.0
-        version: 1.55.0(@types/react@19.3.0)(react@19.3.0)
+        specifier: ^1.61.0
+        version: 1.61.0(@types/react@19.3.0)(react@19.3.1)
       react:
-        specifier: ^19.2.4
-        version: 19.3.0
+        specifier: ^19.3.1
+        version: 19.3.1
       react-dom:
-        specifier: ^19.2.4
-        version: 19.3.0(react@19.3.0)
+        specifier: ^19.3.1
+        version: 19.3.1(react@19.3.1)
     devDependencies:
       '@types/react':
         specifier: ^19.2.14
@@ -26,7 +26,7 @@ importers:
         version: 19.3.0(@types/react@19.3.0)
       '@wxt-dev/module-react':
         specifier: ^1.1.5
-        version: 1.2.2(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(wxt@0.21.4(eslint@9.39.4(jiti@2.7.0))(rolldown@1.2.15)(typescript@5.9.3)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(web-ext@10.8.0(jiti@2.7.0)))
+        version: 1.2.2(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(wxt@0.21.4(eslint@9.39.4(jiti@2.7.0))(rolldown@1.2.15)(typescript@5.9.3)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(web-ext@10.7.0(jiti@2.7.0)))
       prettier:
         specifier: ^3.9.10
         version: 3.9.10
@@ -41,7 +41,7 @@ importers:
         version: 10.8.0(jiti@2.7.0)
       wxt:
         specifier: ^0.21.3
-        version: 0.21.4(eslint@9.39.4(jiti@2.7.0))(rolldown@1.2.15)(typescript@5.9.3)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(web-ext@10.8.0(jiti@2.7.0))
+        version: 0.21.4(eslint@9.39.4(jiti@2.7.0))(rolldown@1.2.15)(typescript@5.9.3)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(web-ext@10.7.0(jiti@2.7.0))
 
 packages:
 
@@ -1280,8 +1280,8 @@ packages:
   lodash.once@4.1.1:
     resolution: {integrity: sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==}
 
-  lucide-react@1.55.0:
-    resolution: {integrity: sha512-bSozQHiI3/8q7JvgoqVRGOYUi7fYT3siAZwmZsljjsOH2Husp/2ODdFf/leD+ZC/2yKfn7r8oh6yeoR3ITR5vA==}
+  lucide-react@1.61.0:
+    resolution: {integrity: sha512-v2SQPPPNjnr+BlhL9Spuzmo5yR+hLkftfuE4E3jaxdNPgSH0hJKPcLJBP7yAta87jQNPsSERS59PJjCJ/CorBA==}
     peerDependencies:
       '@types/react': '*'
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -1507,13 +1507,13 @@ packages:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
     hasBin: true
 
-  react-dom@19.3.0:
-    resolution: {integrity: sha512-JDk8dgif51OjFoDE70+OT9ICyYr+69HlmihNwp1+Nsfbna3t5sIiCa9ZJktDmQ4/1b/rn26hIAR2uYXDMr5r0Q==}
+  react-dom@19.3.1:
+    resolution: {integrity: sha512-Y0bARz53lhEC1NMCASs0/j+faB/zqt3R8hpvg1e8+61ZVJ4UL0UdC4cBbXfZMcIuhrfgeILTLe+ZeBCavQPtKQ==}
     peerDependencies:
-      react: ^19.3.0
+      react: ^19.3.1
 
-  react@19.3.0:
-    resolution: {integrity: sha512-E8LUcbtBWt20bbl2YoHfx4ZDBdxVTfOKtCZn9cDSJ4l6/nuoApcpIBcj47t2wZoVX8g2ZHuMHbiShgCR1T5Sog==}
+  react@19.3.1:
+    resolution: {integrity: sha512-QNhWdt7nrgVWWQG58QuGsAR3jv3Hbe4mb4vz7w2csnHavciZJgda1CPNaldF6eVxv90ud3jUXpKlHL69gO38yw==}
     engines: {node: '>=0.10.0'}
 
   readable-stream@2.3.8:
@@ -2286,11 +2286,11 @@ snapshots:
       '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
 
-  '@wxt-dev/module-react@1.2.2(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(wxt@0.21.4(eslint@9.39.4(jiti@2.7.0))(rolldown@1.2.15)(typescript@5.9.3)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(web-ext@10.8.0(jiti@2.7.0)))':
+  '@wxt-dev/module-react@1.2.2(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(wxt@0.21.4(eslint@9.39.4(jiti@2.7.0))(rolldown@1.2.15)(typescript@5.9.3)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(web-ext@10.7.0(jiti@2.7.0)))':
     dependencies:
       '@vitejs/plugin-react': 6.1.2(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))
       vite: 8.3.4(@types/node@26.6.5)(jiti@2.7.0)
-      wxt: 0.21.4(eslint@9.39.4(jiti@2.7.0))(rolldown@1.2.15)(typescript@5.9.3)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(web-ext@10.8.0(jiti@2.7.0))
+      wxt: 0.21.4(eslint@9.39.4(jiti@2.7.0))(rolldown@1.2.15)(typescript@5.9.3)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(web-ext@10.7.0(jiti@2.7.0))
     transitivePeerDependencies:
       - '@rolldown/plugin-babel'
       - babel-plugin-react-compiler
@@ -3140,9 +3140,9 @@ snapshots:
 
   lodash.once@4.1.1: {}
 
-  lucide-react@1.55.0(@types/react@19.3.0)(react@19.3.0):
+  lucide-react@1.61.0(@types/react@19.3.0)(react@19.3.1):
     dependencies:
-      react: 19.3.0
+      react: 19.3.1
     optionalDependencies:
       '@types/react': 19.3.0
 
@@ -3388,12 +3388,12 @@ snapshots:
       minimist: 1.2.8
       strip-json-comments: 2.0.1
 
-  react-dom@19.3.0(react@19.3.0):
+  react-dom@19.3.1(react@19.3.1):
     dependencies:
-      react: 19.3.0
+      react: 19.3.1
       scheduler: 0.28.0
 
-  react@19.3.0: {}
+  react@19.3.1: {}
 
   readable-stream@2.3.8:
     dependencies:
@@ -3777,7 +3777,7 @@ snapshots:
       is-wsl: 3.1.1
       powershell-utils: 0.2.1
 
-  wxt@0.21.4(eslint@9.39.4(jiti@2.7.0))(rolldown@1.2.15)(typescript@5.9.3)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(web-ext@10.8.0(jiti@2.7.0)):
+  wxt@0.21.4(eslint@9.39.4(jiti@2.7.0))(rolldown@1.2.15)(typescript@5.9.3)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))(web-ext@10.7.0(jiti@2.7.0)):
     dependencies:
       '@1natsu/wait-element': 4.2.0
       '@aklinker1/rollup-plugin-visualizer': 5.12.0

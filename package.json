@@ -22,9 +22,9 @@
     "postinstall": "wxt prepare"
   },
   "dependencies": {
-    "lucide-react": "^1.55.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "lucide-react": "^1.61.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@types/react": "^19.2.14",
