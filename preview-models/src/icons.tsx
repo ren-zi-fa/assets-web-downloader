@@ -17,11 +17,7 @@ const ICONS = {
     'M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71',
     'M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71',
   ],
-  upload: [
-    'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4',
-    'm7 10 5 5 5-5',
-    'M12 15V3',
-  ],
+  upload: ['M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4', 'm7 10 5 5 5-5', 'M12 15V3'],
   reload: [
     'M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8',
     'M21 3v5h-5',
@@ -34,11 +30,11 @@ const ICONS = {
     'M3 16v3a2 2 0 0 2 2h3',
     'M16 21h3a2 2 0 0 0 2-2v-3',
   ],
-}
+};
 
 interface IconProps {
-  name: keyof typeof ICONS
-  size?: number
+  name: keyof typeof ICONS;
+  size?: number;
 }
 
 export function Icon({ name, size = 16 }: IconProps) {
@@ -58,5 +54,5 @@ export function Icon({ name, size = 16 }: IconProps) {
         <path key={d} d={d} />
       ))}
     </svg>
-  )
+  );
 }

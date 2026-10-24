@@ -1,8 +1,8 @@
-import { Icon } from '../icons'
+import { Icon } from '../icons';
 
 interface TopBarProps {
-  onOpenFile: () => void
-  onToggleUrl: () => void
+  onOpenFile: () => void;
+  onToggleUrl: () => void;
 }
 
 export function TopBar({ onOpenFile, onToggleUrl }: TopBarProps) {
@@ -31,5 +31,5 @@ export function TopBar({ onOpenFile, onToggleUrl }: TopBarProps) {
         Made with Spline
       </a>
     </header>
-  )
+  );
 }

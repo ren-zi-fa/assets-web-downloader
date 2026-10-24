@@ -106,9 +106,9 @@ describe('convertModel', () => {
   });
 
   it('menolak format yang tak didukung', async () => {
-    await expect(convertModel('https://example.test/robot.splinecode', 'splinecode')).rejects.toThrow(
-      /not supported/i,
-    );
+    await expect(
+      convertModel('https://example.test/robot.splinecode', 'splinecode'),
+    ).rejects.toThrow(/not supported/i);
   });
 
   it('meneruskan error dari background', async () => {

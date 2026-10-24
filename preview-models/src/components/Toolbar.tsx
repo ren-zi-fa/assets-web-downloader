@@ -1,12 +1,12 @@
-import { Icon } from '../icons'
-import type { SceneMeta } from '../scene'
-import { formatBytes } from '../utils/format'
+import { Icon } from '../icons';
+import type { SceneMeta } from '../scene';
+import { formatBytes } from '../utils/format';
 
 interface ToolbarProps {
-  meta: SceneMeta | null
-  sceneName: string
-  onReload: () => void
-  onToggleFullscreen: () => void
+  meta: SceneMeta | null;
+  sceneName: string;
+  onReload: () => void;
+  onToggleFullscreen: () => void;
 }
 
 export function Toolbar({ meta, sceneName, onReload, onToggleFullscreen }: ToolbarProps) {
@@ -55,5 +55,5 @@ export function Toolbar({ meta, sceneName, onReload, onToggleFullscreen }: Toolb
         </button>
       </div>
     </div>
-  )
+  );
 }

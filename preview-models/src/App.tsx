@@ -1,62 +1,56 @@
-import { useCallback, useRef, useState } from 'react'
-import type { ChangeEvent } from 'react'
-import { SplineCanvas } from './SplineCanvas'
-import { ModelViewerCanvas } from './ModelViewerCanvas'
-import { TopBar } from './components/TopBar'
-import { UrlBar } from './components/UrlBar'
-import { Toolbar } from './components/Toolbar'
-import {
-  DragOverlay,
-  EmptyState,
-  ErrorOverlay,
-  Hint,
-  LoadingOverlay,
-} from './components/Overlays'
-import { useSceneLoader } from './hooks/useSceneLoader'
-import { useDragDrop } from './hooks/useDragDrop'
-import { parseUrlModel } from './scene'
+import { useCallback, useRef, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { SplineCanvas } from './SplineCanvas';
+import { ModelViewerCanvas } from './ModelViewerCanvas';
+import { TopBar } from './components/TopBar';
+import { UrlBar } from './components/UrlBar';
+import { Toolbar } from './components/Toolbar';
+import { DragOverlay, EmptyState, ErrorOverlay, Hint, LoadingOverlay } from './components/Overlays';
+import { useSceneLoader } from './hooks/useSceneLoader';
+import { useDragDrop } from './hooks/useDragDrop';
+import { parseUrlModel } from './scene';
 
-const FILE_ACCEPT = '.splinecode,.glb,.gltf'
+const FILE_ACCEPT = '.splinecode,.glb,.gltf';
 
 function App() {
-  const [initial] = useState(() => parseUrlModel(window.location.search))
+  const [initial] = useState(() => parseUrlModel(window.location.search));
   const { source, status, reloadKey, onStatusChange, reload, openFile, loadUrl } =
-    useSceneLoader(initial)
+    useSceneLoader(initial);
 
-  const [showUrl, setShowUrl] = useState(false)
-  const [urlValue, setUrlValue] = useState('')
+  const [showUrl, setShowUrl] = useState(false);
+  const [urlValue, setUrlValue] = useState('');
 
-  const viewportRef = useRef<HTMLElement>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const viewportRef = useRef<HTMLElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const onPickFile = useCallback(() => fileInputRef.current?.click(), [])
+  const onPickFile = useCallback(() => fileInputRef.current?.click(), []);
 
   const onFileInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0]
-      if (file) openFile(file)
-      e.target.value = ''
+      const file = e.target.files?.[0];
+      if (file) openFile(file);
+      e.target.value = '';
     },
     [openFile],
-  )
+  );
 
   const handleLoadUrl = useCallback(() => {
     if (loadUrl(urlValue)) {
-      setShowUrl(false)
-      setUrlValue('')
+      setShowUrl(false);
+      setUrlValue('');
     }
-  }, [loadUrl, urlValue])
+  }, [loadUrl, urlValue]);
 
   const toggleFullscreen = useCallback(() => {
-    const el = viewportRef.current
-    if (!el) return
-    if (document.fullscreenElement) document.exitFullscreen()
-    else el.requestFullscreen?.()
-  }, [])
+    const el = viewportRef.current;
+    if (!el) return;
+    if (document.fullscreenElement) document.exitFullscreen();
+    else el.requestFullscreen?.();
+  }, []);
 
-  const { dragging, onDragEnter, onDragOver, onDragLeave, onDrop } = useDragDrop(openFile)
+  const { dragging, onDragEnter, onDragOver, onDragLeave, onDrop } = useDragDrop(openFile);
 
-  const meta = status.state === 'ready' ? status.meta : null
+  const meta = status.state === 'ready' ? status.meta : null;
 
   return (
     <div className="app">
@@ -83,7 +77,11 @@ function App() {
           <SplineCanvas source={source} reloadKey={reloadKey} onStatusChange={onStatusChange} />
         )}
         {(source?.format === 'glb' || source?.format === 'gltf') && (
-          <ModelViewerCanvas source={source} reloadKey={reloadKey} onStatusChange={onStatusChange} />
+          <ModelViewerCanvas
+            source={source}
+            reloadKey={reloadKey}
+            onStatusChange={onStatusChange}
+          />
         )}
 
         {!source && status.state !== 'error' && <EmptyState />}
@@ -110,7 +108,7 @@ function App() {
         onChange={onFileInputChange}
       />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

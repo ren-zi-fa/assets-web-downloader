@@ -79,9 +79,7 @@ export function ModelPanel({ items, onError }: PanelProps) {
                     <button
                       onClick={() => convert(model)}
                       disabled={busy === `${key}:convert`}
-                      title={
-                        model.format === 'glb' ? 'Convert GLB to glTF' : 'Convert glTF to GLB'
-                      }
+                      title={model.format === 'glb' ? 'Convert GLB to glTF' : 'Convert glTF to GLB'}
                     >
                       {busy === `${key}:convert` ? (
                         <LoaderCircle size={13} className="ad-spin" />

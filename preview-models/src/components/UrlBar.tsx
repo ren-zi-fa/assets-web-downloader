@@ -1,8 +1,8 @@
 interface UrlBarProps {
-  value: string
-  onChange: (value: string) => void
-  onLoad: () => void
-  onClose: () => void
+  value: string;
+  onChange: (value: string) => void;
+  onLoad: () => void;
+  onClose: () => void;
 }
 
 export function UrlBar({ value, onChange, onLoad, onClose }: UrlBarProps) {
@@ -23,5 +23,5 @@ export function UrlBar({ value, onChange, onLoad, onClose }: UrlBarProps) {
         Cancel
       </button>
     </div>
-  )
+  );
 }

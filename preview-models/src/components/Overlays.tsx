@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
-import { Icon } from '../icons'
+import type { ReactNode } from 'react';
+import { Icon } from '../icons';
 
 function DropCard({ children }: { children: ReactNode }) {
   return (
@@ -9,7 +9,7 @@ function DropCard({ children }: { children: ReactNode }) {
       </span>
       <p>{children}</p>
     </div>
-  )
+  );
 }
 
 export function EmptyState() {
@@ -17,7 +17,7 @@ export function EmptyState() {
     <div className="overlay">
       <DropCard>Open or drop a model to preview it</DropCard>
     </div>
-  )
+  );
 }
 
 export function LoadingOverlay() {
@@ -26,13 +26,13 @@ export function LoadingOverlay() {
       <div className="spinner" />
       <p>Loading scene…</p>
     </div>
-  )
+  );
 }
 
 interface ErrorOverlayProps {
-  message: string
-  onRetry: () => void
-  onOpenFile: () => void
+  message: string;
+  onRetry: () => void;
+  onOpenFile: () => void;
 }
 
 export function ErrorOverlay({ message, onRetry, onOpenFile }: ErrorOverlayProps) {
@@ -54,7 +54,7 @@ export function ErrorOverlay({ message, onRetry, onOpenFile }: ErrorOverlayProps
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export function DragOverlay() {
@@ -64,9 +64,9 @@ export function DragOverlay() {
         Drop a <code>.splinecode</code>, <code>.glb</code>, or <code>.gltf</code> file
       </DropCard>
     </div>
-  )
+  );
 }
 
 export function Hint() {
-  return <div className="hint">Drag to rotate · Scroll to zoom · Right-drag to pan</div>
+  return <div className="hint">Drag to rotate · Scroll to zoom · Right-drag to pan</div>;
 }

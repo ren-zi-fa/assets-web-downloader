@@ -11,8 +11,7 @@
   --accent-hover: #8f74ff;
   --accent-soft: rgba(124, 92, 255, 0.16);
   --danger: #ff6b6b;
-  --sans:
-    system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --sans: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Consolas, monospace;
 
   font-family: var(--sans);
@@ -242,8 +241,7 @@ body {
   min-height: 0;
   overflow: hidden;
   background:
-    radial-gradient(1200px 800px at 50% -10%, rgba(124, 92, 255, 0.12), transparent 60%),
-    var(--bg);
+    radial-gradient(1200px 800px at 50% -10%, rgba(124, 92, 255, 0.12), transparent 60%), var(--bg);
 }
 
 .spline-stage {
