@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import { AudioLines, Boxes, Images, Palette, Shapes, Type, type LucideIcon } from 'lucide-react';
+import { AudioLines, Images, Palette, Shapes, Type, type LucideIcon } from 'lucide-react';
 import type { ScanResult } from '../shared/scan';
 import { AudioPanel } from './audio/AudioPanel';
 import { scanAudioNetwork, scanPageAudio } from './audio/scanner';
@@ -13,8 +13,10 @@ import { ModelPanel } from './models/ModelPanel';
 import { scanModelSources, scanPageModels } from './models/scanner';
 import { scanPageSprites, scanSpriteSources } from './sprite/scanner';
 import { SpritePanel } from './sprite/SpritePanel';
+import { WebGlPanel } from './webgl/WebGlPanel';
+import { scanWebGlPage, scanWebGlScenes } from './webgl/scanner';
 
-export type FeatureId = 'images' | 'sprite' | 'fonts' | 'audio' | 'colors' | 'models';
+export type FeatureId = 'images' | 'sprite' | 'fonts' | 'audio' | 'colors';
 
 export interface PanelProps {
   items: unknown[];
@@ -83,17 +85,6 @@ export const FEATURES: FeatureEntry[] = [
       'Note: colors are collected from rendered text, backgrounds, borders, inline SVG, and the theme-color meta tag.',
     scan: scanPageColors,
     Panel: ColorPanel,
-  },
-  {
-    id: 'models',
-    label: '3D Models',
-    icon: Boxes,
-    noun: 'models',
-    emptyHint:
-      'Note: detects .glb/.gltf/.obj/.fbx/.splinecode and other model files loaded by the page. GLB, glTF, and Spline scenes can be opened in a web preview; other formats can only be downloaded raw.',
-    scan: scanPageModels,
-    scanNetwork: scanModelSources,
-    Panel: ModelPanel,
   },
 ];
 
