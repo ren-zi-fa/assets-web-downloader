@@ -83,7 +83,10 @@ function App() {
           <img className="ad-logo" src={LOGO_URL} alt="" />
           Asset Downloader
         </h1>
-        <p>Scan images, fonts, audio & colors on the active tab, then download them one by one.</p>
+        <p>
+          Scan images, sprites, fonts, audio, colors & 3D models on the active tab, then download
+          them one by one.
+        </p>
         <p className="ad-target">
           Target: <strong>{tabHost || 'special page (cannot be scanned)'}</strong>
         </p>

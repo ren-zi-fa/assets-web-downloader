@@ -7,6 +7,9 @@ export default defineConfig({
   // agar bisa ditandatangani/dipasang permanen, sementara Chrome mengabaikannya.
   manifest: ({ browser }) => ({
     permissions: ['activeTab', 'scripting', 'downloads'],
+    // Izin host diperlukan agar background service worker bisa meng-fetch
+    // model 3D lintas-origin untuk fitur konversi/export (GLB↔glTF, PNG).
+    host_permissions: ['<all_urls>'],
     action: {
       default_title: 'Asset Downloader',
     },

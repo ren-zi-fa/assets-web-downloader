@@ -71,16 +71,16 @@ export default function Index() {
           <div className="card">
             <h3>Sprite</h3>
             <p>
-              Finds sprite sheets behind animated &lt;canvas&gt; graphics, including sheets loaded by
-              JavaScript that never appear as &lt;img&gt;. Also captures a PNG snapshot of each
+              Finds sprite sheets behind animated &lt;canvas&gt; graphics, including sheets loaded
+              by JavaScript that never appear as &lt;img&gt;. Also captures a PNG snapshot of each
               canvas. Ideal for games, slot animations, walk cycles, and animated icons.
             </p>
           </div>
           <div className="card">
             <h3>Fonts</h3>
             <p>
-              Downloadable @font-face files, Google Fonts links, and fonts actually used by the page.
-              Click a font name to search for it on Google.
+              Downloadable @font-face files, Google Fonts links, and fonts actually used by the
+              page. Click a font name to search for it on Google.
             </p>
           </div>
           <div className="card">
@@ -146,7 +146,11 @@ export default function Index() {
       <footer className="site-footer">
         <p>
           Asset Downloader · MIT License ·{' '}
-          <a href="https://github.com/ren-zi-fa/assets-web-downloader" target="_blank" rel="noreferrer">
+          <a
+            href="https://github.com/ren-zi-fa/assets-web-downloader"
+            target="_blank"
+            rel="noreferrer"
+          >
             GitHub
           </a>
         </p>

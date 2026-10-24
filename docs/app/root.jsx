@@ -3,7 +3,10 @@ import './styles.css';
 
 export const meta = () => [
   { title: 'Asset Downloader — Scan & Download Web Assets' },
-  { name: 'description', content: 'Scan and download images, sprites, fonts, and audio from any web page.' },
+  {
+    name: 'description',
+    content: 'Scan and download images, sprites, fonts, and audio from any web page.',
+  },
 ];
 
 export default function App() {

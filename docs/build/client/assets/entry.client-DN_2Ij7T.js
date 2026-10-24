@@ -1,1 +1,181 @@
-import{i as e,n as t,r as n,t as r}from"./jsx-runtime-CBshz4TQ.js";import{_ as i,a,b as o,c as s,d as c,f as l,g as u,l as d,m as f,o as p,p as m,r as h,s as g,u as _,v,x as y,y as b}from"./components-DBKlltmV.js";function x(e){if(!e)return null;let t=Object.entries(e),n={};for(let[e,r]of t)if(r&&r.__type===`RouteErrorResponse`)n[e]=new i(r.status,r.statusText,r.data,r.internal===!0);else if(r&&r.__type===`Error`){if(r.__subType){let t=window[r.__subType];if(typeof t==`function`)try{let i=new t(r.message);i.stack=r.stack,n[e]=i}catch{}}if(n[e]==null){let t=Error(r.message);t.stack=r.stack,n[e]=t}}else n[e]=r;return n}var S=e(t()),C,w,T=!1,E;new Promise(e=>{E=e}).catch(()=>{});function D(e){if(!w){if(window.__remixContext.future.v3_singleFetch){if(!C){let e=window.__remixContext.stream;m(e,`No stream found for single fetch decoding`),window.__remixContext.stream=void 0,C=c(e,window).then(e=>{window.__remixContext.state=e.value,C.value=!0}).catch(e=>{C.error=e})}if(C.error)throw C.error;if(!C.value)throw C}let e=g(window.__remixManifest.routes,window.__remixRouteModules,window.__remixContext.state,window.__remixContext.future,window.__remixContext.isSpaMode),t;if(!window.__remixContext.isSpaMode){t={...window.__remixContext.state,loaderData:{...window.__remixContext.state.loaderData}};let n=o(e,window.location,window.__remixContext.basename);if(n)for(let e of n){let n=e.route.id,r=window.__remixRouteModules[n],i=window.__remixManifest.routes[n];r&&d(i,r,window.__remixContext.isSpaMode)&&(r.HydrateFallback||!i.hasLoader)?t.loaderData[n]=void 0:i&&!i.hasLoader&&(t.loaderData[n]=null)}t&&t.errors&&(t.errors=x(t.errors))}w=b({routes:e,history:v(),basename:window.__remixContext.basename,future:{v7_normalizeFormMethod:!0,v7_fetcherPersist:window.__remixContext.future.v3_fetcherPersist,v7_partialHydration:!0,v7_prependBasename:!0,v7_relativeSplatPath:window.__remixContext.future.v3_relativeSplatPath,v7_skipActionErrorRevalidation:window.__remixContext.future.v3_singleFetch===!0},hydrationData:t,mapRouteProperties:u,dataStrategy:window.__remixContext.future.v3_singleFetch&&!window.__remixContext.isSpaMode?l(window.__remixManifest,window.__remixRouteModules,()=>w):void 0,patchRoutesOnNavigation:a(window.__remixManifest,window.__remixRouteModules,window.__remixContext.future,window.__remixContext.isSpaMode,window.__remixContext.basename)}),w.state.initialized&&(T=!0,w.initialize()),w.createRoutesForHMR=s,window.__remixRouter=w,E&&E(w)}let[t,n]=S.useState(void 0),[r,i]=S.useState(w.state.location);return S.useLayoutEffect(()=>{T||(T=!0,w.initialize())},[]),S.useLayoutEffect(()=>w.subscribe(e=>{e.location!==r&&i(e.location)}),[r]),p(w,window.__remixManifest,window.__remixRouteModules,window.__remixContext.future,window.__remixContext.isSpaMode),S.createElement(S.Fragment,null,S.createElement(h.Provider,{value:{manifest:window.__remixManifest,routeModules:window.__remixRouteModules,future:window.__remixContext.future,criticalCss:t,isSpaMode:window.__remixContext.isSpaMode}},S.createElement(_,{location:r},S.createElement(f,{router:w,fallbackElement:null,future:{v7_startTransition:!0}}))),window.__remixContext.future.v3_singleFetch?S.createElement(S.Fragment,null):null)}var O=n((e=>{var t=y();e.createRoot=t.createRoot,e.hydrateRoot=t.hydrateRoot}))(),k=r();(0,S.startTransition)(()=>{(0,O.hydrateRoot)(document,(0,k.jsx)(S.StrictMode,{children:(0,k.jsx)(D,{})}))});
+import { i as e, n as t, r as n, t as r } from './jsx-runtime-CBshz4TQ.js';
+import {
+  _ as i,
+  a,
+  b as o,
+  c as s,
+  d as c,
+  f as l,
+  g as u,
+  l as d,
+  m as f,
+  o as p,
+  p as m,
+  r as h,
+  s as g,
+  u as _,
+  v,
+  x as y,
+  y as b,
+} from './components-DBKlltmV.js';
+function x(e) {
+  if (!e) return null;
+  let t = Object.entries(e),
+    n = {};
+  for (let [e, r] of t)
+    if (r && r.__type === `RouteErrorResponse`)
+      n[e] = new i(r.status, r.statusText, r.data, r.internal === !0);
+    else if (r && r.__type === `Error`) {
+      if (r.__subType) {
+        let t = window[r.__subType];
+        if (typeof t == `function`)
+          try {
+            let i = new t(r.message);
+            ((i.stack = r.stack), (n[e] = i));
+          } catch {}
+      }
+      if (n[e] == null) {
+        let t = Error(r.message);
+        ((t.stack = r.stack), (n[e] = t));
+      }
+    } else n[e] = r;
+  return n;
+}
+var S = e(t()),
+  C,
+  w,
+  T = !1,
+  E;
+new Promise((e) => {
+  E = e;
+}).catch(() => {});
+function D(e) {
+  if (!w) {
+    if (window.__remixContext.future.v3_singleFetch) {
+      if (!C) {
+        let e = window.__remixContext.stream;
+        (m(e, `No stream found for single fetch decoding`),
+          (window.__remixContext.stream = void 0),
+          (C = c(e, window)
+            .then((e) => {
+              ((window.__remixContext.state = e.value), (C.value = !0));
+            })
+            .catch((e) => {
+              C.error = e;
+            })));
+      }
+      if (C.error) throw C.error;
+      if (!C.value) throw C;
+    }
+    let e = g(
+        window.__remixManifest.routes,
+        window.__remixRouteModules,
+        window.__remixContext.state,
+        window.__remixContext.future,
+        window.__remixContext.isSpaMode,
+      ),
+      t;
+    if (!window.__remixContext.isSpaMode) {
+      t = {
+        ...window.__remixContext.state,
+        loaderData: { ...window.__remixContext.state.loaderData },
+      };
+      let n = o(e, window.location, window.__remixContext.basename);
+      if (n)
+        for (let e of n) {
+          let n = e.route.id,
+            r = window.__remixRouteModules[n],
+            i = window.__remixManifest.routes[n];
+          r && d(i, r, window.__remixContext.isSpaMode) && (r.HydrateFallback || !i.hasLoader)
+            ? (t.loaderData[n] = void 0)
+            : i && !i.hasLoader && (t.loaderData[n] = null);
+        }
+      t && t.errors && (t.errors = x(t.errors));
+    }
+    ((w = b({
+      routes: e,
+      history: v(),
+      basename: window.__remixContext.basename,
+      future: {
+        v7_normalizeFormMethod: !0,
+        v7_fetcherPersist: window.__remixContext.future.v3_fetcherPersist,
+        v7_partialHydration: !0,
+        v7_prependBasename: !0,
+        v7_relativeSplatPath: window.__remixContext.future.v3_relativeSplatPath,
+        v7_skipActionErrorRevalidation: window.__remixContext.future.v3_singleFetch === !0,
+      },
+      hydrationData: t,
+      mapRouteProperties: u,
+      dataStrategy:
+        window.__remixContext.future.v3_singleFetch && !window.__remixContext.isSpaMode
+          ? l(window.__remixManifest, window.__remixRouteModules, () => w)
+          : void 0,
+      patchRoutesOnNavigation: a(
+        window.__remixManifest,
+        window.__remixRouteModules,
+        window.__remixContext.future,
+        window.__remixContext.isSpaMode,
+        window.__remixContext.basename,
+      ),
+    })),
+      w.state.initialized && ((T = !0), w.initialize()),
+      (w.createRoutesForHMR = s),
+      (window.__remixRouter = w),
+      E && E(w));
+  }
+  let [t, n] = S.useState(void 0),
+    [r, i] = S.useState(w.state.location);
+  return (
+    S.useLayoutEffect(() => {
+      T || ((T = !0), w.initialize());
+    }, []),
+    S.useLayoutEffect(
+      () =>
+        w.subscribe((e) => {
+          e.location !== r && i(e.location);
+        }),
+      [r],
+    ),
+    p(
+      w,
+      window.__remixManifest,
+      window.__remixRouteModules,
+      window.__remixContext.future,
+      window.__remixContext.isSpaMode,
+    ),
+    S.createElement(
+      S.Fragment,
+      null,
+      S.createElement(
+        h.Provider,
+        {
+          value: {
+            manifest: window.__remixManifest,
+            routeModules: window.__remixRouteModules,
+            future: window.__remixContext.future,
+            criticalCss: t,
+            isSpaMode: window.__remixContext.isSpaMode,
+          },
+        },
+        S.createElement(
+          _,
+          { location: r },
+          S.createElement(f, {
+            router: w,
+            fallbackElement: null,
+            future: { v7_startTransition: !0 },
+          }),
+        ),
+      ),
+      window.__remixContext.future.v3_singleFetch ? S.createElement(S.Fragment, null) : null,
+    )
+  );
+}
+var O = n((e) => {
+    var t = y();
+    ((e.createRoot = t.createRoot), (e.hydrateRoot = t.hydrateRoot));
+  })(),
+  k = r();
+(0, S.startTransition)(() => {
+  (0, O.hydrateRoot)(document, (0, k.jsx)(S.StrictMode, { children: (0, k.jsx)(D, {}) }));
+});
