@@ -4,8 +4,9 @@
     "allowImportingTsExtensions": true,
     "jsx": "react-jsx"
   },
-  // docs/ adalah project Vite terpisah (punya package.json + lockfile sendiri).
-  // Tanpa ini, tsc root ikut ngecek docs/ tapi deps-nya tidak terinstall di CI.
+  // docs/ dan preview-models/ adalah project Vite terpisah (punya package.json
+  // + lockfile sendiri). Tanpa ini, tsc root ikut ngecek mereka tapi deps-nya
+  // tidak terinstall di CI. Masing-masing dicheck lewat workflow sendiri.
   "include": ["./**/*", ".wxt/wxt.d.ts"],
-  "exclude": ["**/node_modules", ".output", "dist", "docs"]
+  "exclude": ["**/node_modules", ".output", "dist", "docs", "preview-models"]
 }
