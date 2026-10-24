@@ -1,0 +1,16 @@
+.ad-webgl-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: #6d28d9;
+  background: #ede9fe;
+}
+
+.ad-webgl-ext {
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: #6d28d9;
+}

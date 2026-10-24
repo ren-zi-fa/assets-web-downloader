@@ -1,5 +1,14 @@
 import type { ComponentType } from 'react';
-import { AudioLines, Boxes, Images, Palette, Shapes, Type, type LucideIcon } from 'lucide-react';
+import {
+  AudioLines,
+  Box,
+  Boxes,
+  Images,
+  Palette,
+  Shapes,
+  Type,
+  type LucideIcon,
+} from 'lucide-react';
 import type { ScanResult } from '../shared/scan';
 import { AudioPanel } from './audio/AudioPanel';
 import { scanAudioNetwork, scanPageAudio } from './audio/scanner';
@@ -13,8 +22,10 @@ import { ModelPanel } from './models/ModelPanel';
 import { scanModelSources, scanPageModels } from './models/scanner';
 import { scanPageSprites, scanSpriteSources } from './sprite/scanner';
 import { SpritePanel } from './sprite/SpritePanel';
+import { WebGlPanel } from './webgl/WebGlPanel';
+import { scanWebGlPage, scanWebGlScenes } from './webgl/scanner';
 
-export type FeatureId = 'images' | 'sprite' | 'fonts' | 'audio' | 'colors' | 'models';
+export type FeatureId = 'images' | 'sprite' | 'fonts' | 'audio' | 'colors' | 'models' | 'webgl';
 
 export interface PanelProps {
   items: unknown[];
@@ -94,6 +105,17 @@ export const FEATURES: FeatureEntry[] = [
     scan: scanPageModels,
     scanNetwork: scanModelSources,
     Panel: ModelPanel,
+  },
+  {
+    id: 'webgl',
+    label: 'WebGL',
+    icon: Box,
+    noun: 'scenes',
+    emptyHint:
+      'Note: detects three.js scenes rendered via WebGL/WebGPU and exports the current scene as a .glb file. The page must expose window.THREE, and the scene must be rendering — click Analyze again if the first result is empty.',
+    scan: scanWebGlPage,
+    scanNetwork: scanWebGlScenes,
+    Panel: WebGlPanel,
   },
 ];
 
