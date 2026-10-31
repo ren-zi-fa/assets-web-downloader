@@ -12,8 +12,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0(three@0.183.2)
       '@splinetool/runtime':
-        specifier: ^2.0.109
-        version: 2.0.109
+        specifier: ^2.0.118
+        version: 2.0.118
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -330,8 +330,8 @@ packages:
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
-  '@splinetool/runtime@2.0.109':
-    resolution: {integrity: sha512-9RmHv/eMVW4SO+PRgbeSe5BLiFeCFDhmzjOoXUJtmVB5JLbIFba2plW7GvoCGo83cPrNKLxBUlcXTJBFY1uYnw==}
+  '@splinetool/runtime@2.0.118':
+    resolution: {integrity: sha512-+mQNyIJ2IIEjsVxJwf4W/RRZU2UBNxrMUPGOR3CWyfkO2aFDzPD/LgsySRkWu0QW4dT3RczYxHv+YtELtpPIoQ==}
 
   '@types/esrecurse@4.3.1':
     resolution: {integrity: sha512-xJBAbDifo5hpffDBuHl0Y8ywswbiAp/Wi7Y/GtAgSlZyIABppyurxVueOPE8LUQOxdlgi6Zqce7uoEpqNTeiUw==}
@@ -1242,7 +1242,7 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@splinetool/runtime@2.0.109':
+  '@splinetool/runtime@2.0.118':
     dependencies:
       on-change: 4.0.0
       semver-compare: 1.0.0
